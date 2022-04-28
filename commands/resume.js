@@ -3,7 +3,7 @@ const { TrackUtils } = require("erela.js");
 
 module.exports = {
   name: "resume",
-  description: "Resumes the music",
+  description: "Tiếp tục bài hát còn dang dở",
   usage: "",
   permissions: {
     channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
@@ -22,12 +22,12 @@ module.exports = {
     if (!player)
       return client.sendTime(
         message.channel,
-        "❌ | **Nothing is playing right now...**"
+        "❌ | **Hàng đợi hiện trống... Bạn có thể bật gì đó chăng, ví dụ như Hút pin của Nam CT?**"
       );
     if (!message.member.voice.channel)
       return client.sendTime(
         message.channel,
-        "❌ | **You must be in a voice channel to use this command!**"
+        "❌ | **Vào 1 kênh voice để chạy bot!**"
       );
     if (
       message.guild.me.voice.channel &&
@@ -35,13 +35,13 @@ module.exports = {
     )
       return client.sendTime(
         message.channel,
-        ":x: | **You must be in the same voice channel as me to use this command!**"
+        ":x: | **Vào cùng kênh voice với bot để chạy bot!**"
       );
 
     if (player.playing)
       return client.sendTime(
         message.channel,
-        "❌ | **Music is already resumed!**"
+        "❌ | **Bài hát hiện đang được phát!**"
       );
     player.pause(false);
     await message.react("✅");
@@ -62,7 +62,7 @@ module.exports = {
       if (!member.voice.channel)
         return client.sendTime(
           interaction,
-          "❌ | **You must be in a voice channel to use this command.**"
+          "❌ | **Vào kênh Vocie để điều khiển bot!**"
         );
       if (
         guild.me.voice.channel &&
@@ -70,22 +70,22 @@ module.exports = {
       )
         return client.sendTime(
           interaction,
-          ":x: | **You must be in the same voice channel as me to use this command!**"
+          ":x: | **Vào cùng kênh voice với bot để chạy bot!**"
         );
 
       let player = await client.Manager.get(interaction.guild_id);
       if (!player)
         return client.sendTime(
           interaction,
-          "❌ | **Nothing is playing right now...**"
+          "❌ | **Hàng đợi hiện trống... Bạn có thể bật gì đó chăng, ví dụ như Hút pin của Nam CT?**"
         );
       if (player.playing)
         return client.sendTime(
           interaction,
-          "❌ | **Music is already resumed!**"
+          "❌ | **Bài hát hiện đang được phát!**"
         );
       player.pause(false);
-      client.sendTime(interaction, "**⏯ Resumed!**");
+      client.sendTime(interaction, "**⏯ Đã bỏ tạm dừng, tiếp tục phát nhạc!**");
     },
   },
 };

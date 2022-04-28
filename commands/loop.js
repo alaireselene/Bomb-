@@ -3,7 +3,7 @@ const { TrackUtils } = require("erela.js");
 
 module.exports = {
   name: "loop",
-  description: "Loop the current song",
+  description: "Bật chế độ lặp lại cho bài hát hiện tại",
   usage: "",
   permissions: {
     channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
@@ -22,12 +22,12 @@ module.exports = {
     if (!player)
       return client.sendTime(
         message.channel,
-        "❌ | **Nothing is playing right now...**"
+        "❌ | **Hàng đợi hiện trống... Bạn có thể bật gì đó chăng, ví dụ như Hút pin của Nam CT?**"
       );
     if (!message.member.voice.channel)
       return client.sendTime(
         message.channel,
-        "❌ | **You must be in a voice channel to use this command!**"
+        "❌ | **Vào 1 kênh voice để chạy bot!**"
       );
     if (
       message.guild.me.voice.channel &&
@@ -35,15 +35,15 @@ module.exports = {
     )
       return client.sendTime(
         message.channel,
-        ":x: | **You must be in the same voice channel as me to use this command!**"
+        ":x: | **Vào cùng kênh voice với bot để chạy bot!**"
       );
 
     if (player.trackRepeat) {
       player.setTrackRepeat(false);
-      client.sendTime(message.channel, `🔂  \`Disabled\``);
+      client.sendTime(message.channel, `🔂  \`Đã tắt\``);
     } else {
       player.setTrackRepeat(true);
-      client.sendTime(message.channel, `🔂 \`Enabled\``);
+      client.sendTime(message.channel, `🔂 \`Đang bật\``);
     }
   },
   SlashCommand: {
@@ -62,12 +62,12 @@ module.exports = {
       if (!player)
         return client.sendTime(
           interaction,
-          "❌ | **Nothing is playing right now...**"
+          "❌ | **Hàng đợi hiện trống... Bạn có thể bật gì đó chăng, ví dụ như Hút pin của Nam CT?**"
         );
       if (!member.voice.channel)
         return client.sendTime(
           interaction,
-          "❌ | You must be in a voice channel to use this command."
+          "❌ | Vào kênh Vocie để điều khiển bot!"
         );
       if (
         guild.me.voice.channel &&
@@ -75,15 +75,15 @@ module.exports = {
       )
         return client.sendTime(
           interaction,
-          ":x: | **You must be in the same voice channel as me to use this command!**"
+          ":x: | **Vào cùng kênh voice với bot để chạy bot!**"
         );
 
       if (player.trackRepeat) {
         player.setTrackRepeat(false);
-        client.sendTime(interaction, `🔂 \`Disabled\``);
+        client.sendTime(interaction, `🔂 \`Đã tắt\``);
       } else {
         player.setTrackRepeat(true);
-        client.sendTime(interaction, `🔂 \`Enabled\``);
+        client.sendTime(interaction, `🔂 \`Đang bật\``);
       }
       console.log(interaction.data);
     },

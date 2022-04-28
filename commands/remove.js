@@ -3,8 +3,8 @@ const { TrackUtils } = require("erela.js");
 
 module.exports = {
   name: "remove",
-  description: `Remove a song from the queue`,
-  usage: "[number]",
+  description: `Xoá một bài hát khỏi hàng chờ`,
+  usage: "[số thứ tự]",
   permissions: {
     channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
     member: [],
@@ -24,12 +24,12 @@ module.exports = {
     if (!player)
       return client.sendTime(
         message.channel,
-        "❌ | **Nothing is playing right now...**"
+        "❌ | **Hàng đợi hiện trống... Bạn có thể bật gì đó chăng, ví dụ như Hút pin của Nam CT?**"
       );
     if (!message.member.voice.channel)
       return client.sendTime(
         message.channel,
-        "❌ | **You must be in a voice channel to use this command!**"
+        "❌ | **Vào 1 kênh voice để chạy bot!**"
       );
     if (
       message.guild.me.voice.channel &&
@@ -37,22 +37,22 @@ module.exports = {
     )
       return client.sendTime(
         message.channel,
-        ":x: | **You must be in the same voice channel as me to use this command!**"
+        ":x: | **Vào cùng kênh voice với bot để chạy bot!**"
       );
 
     if (!player.queue || !player.queue.length || player.queue.length === 0)
-      return message.channel.send("There is nothing in the queue to remove");
+      return message.channel.send("Hàng chờ trống trơn, có gì mà xoá bạn ơi?");
     let rm = new MessageEmbed()
       .setDescription(
-        `✅ **|** Removed track **\`${Number(args[0])}\`** from the queue!`
+        `✅ **|** Đã xoá bài hát **\`${Number(args[0])}\`** khỏi hàng chờ!`
       )
       .setColor("GREEN");
     if (isNaN(args[0]))
       rm.setDescription(
-        `**Usage - **${client.botconfig.prefix}\`remove [track]\``
+        `**Cách xài - **${client.botconfig.prefix}\`remove [tên bài]\``
       );
     if (args[0] > player.queue.length)
-      rm.setDescription(`The queue has only ${player.queue.length} songs!`);
+      rm.setDescription(`Hàng chờ hiện chỉ còn ${player.queue.length} bài thôi!`);
     await message.channel.send(rm);
     player.queue.remove(Number(args[0]) - 1);
   },
@@ -64,7 +64,7 @@ module.exports = {
         value: "[track]",
         type: 4,
         required: true,
-        description: "Remove a song from the queue",
+        description: "Xoá một bài hát khỏi hàng chờ",
       },
     ],
     /**
@@ -82,12 +82,12 @@ module.exports = {
       if (!player)
         return client.sendTime(
           interaction,
-          "❌ | **Nothing is playing right now...**"
+          "❌ | **Hàng đợi hiện trống... Bạn có thể bật gì đó chăng, ví dụ như Hút pin của Nam CT?**"
         );
       if (!member.voice.channel)
         return client.sendTime(
           interaction,
-          "❌ | **You must be in a voice channel to use this command.**"
+          "❌ | **Vào kênh Vocie để điều khiển bot!**"
         );
       if (
         guild.me.voice.channel &&
@@ -95,20 +95,20 @@ module.exports = {
       )
         return client.sendTime(
           interaction,
-          ":x: | **You must be in the same voice channel as me to use this command!**"
+          ":x: | **Vào cùng kênh voice với bot để chạy bot!**"
         );
 
       if (!player.queue || !player.queue.length || player.queue.length === 0)
-        return client.sendTime("❌ | **Nothing is playing right now...**");
+        return client.sendTime("❌ | **Hàng đợi hiện trống... Bạn có thể bật gì đó chăng, ví dụ như Hút pin của Nam CT?**");
       let rm = new MessageEmbed()
         .setDescription(
-          `✅ | **Removed track** \`${Number(args[0])}\` from the queue!`
+          `✅ | **Đã xoá bài hát** \`${Number(args[0])}\` khỏi hàng chờ!`
         )
         .setColor("GREEN");
       if (isNaN(args[0]))
         rm.setDescription(`**Usage:** \`${GuildDB.prefix}remove [track]\``);
       if (args[0] > player.queue.length)
-        rm.setDescription(`The queue has only ${player.queue.length} songs!`);
+        rm.setDescription(`Hàng chờ hiện chỉ còn ${player.queue.length} bài thôi!`);
       await interaction.send(rm);
       player.queue.remove(Number(args[0]) - 1);
     },

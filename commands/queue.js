@@ -4,7 +4,7 @@ const prettyMilliseconds = require("pretty-ms");
 
 module.exports = {
   name: "queue",
-  description: "Shows all currently enqueued songs",
+  description: "Hiển thị danh sách phát (hàng chờ)",
   usage: "",
   permissions: {
     channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
@@ -20,22 +20,22 @@ module.exports = {
    */
   run: async (client, message, args, { GuildDB }) => {
     let player = await client.Manager.get(message.guild.id);
-    if (!player)
+    if (!player.queue.current)
       return client.sendTime(
         message.channel,
-        "❌ | **Nothing is playing right now...**"
+        "❌ | **Hàng đợi hiện trống... Bạn có thể bật gì đó chăng, ví dụ như Hút pin của Nam CT?**"
       );
 
     if (!player.queue || !player.queue.length || player.queue === 0) {
       let QueueEmbed = new MessageEmbed()
-        .setAuthor("Currently playing", client.botconfig.IconURL)
+        .setAuthor("Đang phát:", client.botconfig.IconURL)
         .setColor(client.botconfig.EmbedColor)
         .setDescription(
           `[${player.queue.current.title}](${player.queue.current.uri})`
         )
-        .addField("Requested by", `${player.queue.current.requester}`, true)
+        .addField("Được yêu cầu bởi:", `${player.queue.current.requester}`, true)
         .addField(
-          "Duration",
+          "Thời lượng",
           `${
             client.ProgressBar(
               player.position,
@@ -57,7 +57,7 @@ module.exports = {
       return t;
     });
 
-    let ChunkedSongs = _.chunk(Songs, 10); //How many songs to show per-page
+    let ChunkedSongs = _.chunk(Songs, 10); //How many số bài to show per-page
 
     let Pages = ChunkedSongs.map((Tracks) => {
       let SongsDescription = Tracks.map(
@@ -67,26 +67,26 @@ module.exports = {
             {
               colonNotation: true,
             }
-          )}\` **|** Requested by: ${t.requester}\n`
+          )}\` **|** Được yêu cầu bởi: ${t.requester}\n`
       ).join("\n");
 
       let Embed = new MessageEmbed()
-        .setAuthor("Queue", client.botconfig.IconURL)
+        .setAuthor("Hàng chờ", client.botconfig.IconURL)
         .setColor(client.botconfig.EmbedColor)
         .setDescription(
-          `**Currently Playing:** \n[${player.queue.current.title}](${player.queue.current.uri}) \n\n**Up Next:** \n${SongsDescription}\n\n`
+          `**Đang phát:** \n[${player.queue.current.title}](${player.queue.current.uri}) \n\n**Up Next:** \n${SongsDescription}\n\n`
         )
-        .addField("Total songs: \n", `\`${player.queue.totalSize - 1}\``, true)
+        .addField("Tổng số bài: \n", `\`${player.queue.totalSize - 1}\``, true)
         .addField(
-          "Total length: \n",
+          "Tổng thời lượng: \n",
           `\`${prettyMilliseconds(player.queue.duration, {
             colonNotation: true,
           })}\``,
           true
         )
-        .addField("Requested by:", `${player.queue.current.requester}`, true)
+        .addField("Được yêu cầu bởi:", `${player.queue.current.requester}`, true)
         .addField(
-          "Current song duration:",
+          "Thời lượng nhạc đang phát:",
           `${
             client.ProgressBar(
               player.position,
@@ -132,19 +132,19 @@ module.exports = {
       if (!player)
         return client.sendTime(
           interaction,
-          "❌ | **Nothing is playing right now...**"
+          "❌ | **Hàng đợi hiện trống... Bạn có thể bật gì đó chăng, ví dụ như Hút pin của Nam CT?**"
         );
 
       if (!player.queue || !player.queue.length || player.queue === 0) {
         let QueueEmbed = new MessageEmbed()
-          .setAuthor("Currently playing", client.botconfig.IconURL)
+          .setAuthor("Đang phát:", client.botconfig.IconURL)
           .setColor(client.botconfig.EmbedColor)
           .setDescription(
             `[${player.queue.current.title}](${player.queue.current.uri})`
           )
-          .addField("Requested by", `${player.queue.current.requester}`, true)
+          .addField("Được yêu cầu bởi:", `${player.queue.current.requester}`, true)
           .addField(
-            "Duration",
+            "Thời lượng",
             `${
               client.ProgressBar(
                 player.position,
@@ -166,7 +166,7 @@ module.exports = {
         return t;
       });
 
-      let ChunkedSongs = _.chunk(Songs, 10); //How many songs to show per-page
+      let ChunkedSongs = _.chunk(Songs, 10); //How many số bài to show per-page
 
       let Pages = ChunkedSongs.map((Tracks) => {
         let SongsDescription = Tracks.map(
@@ -175,30 +175,30 @@ module.exports = {
               t.uri
             }) \n\`${prettyMilliseconds(t.duration, {
               colonNotation: true,
-            })}\` **|** Requested by: ${t.requester}\n`
+            })}\` **|** Được yêu cầu bởi: ${t.requester}\n`
         ).join("\n");
 
         let Embed = new MessageEmbed()
-          .setAuthor("Queue", client.botconfig.IconURL)
+          .setAuthor("Hàng chờ", client.botconfig.IconURL)
           .setColor(client.botconfig.EmbedColor)
           .setDescription(
-            `**Currently Playing:** \n[${player.queue.current.title}](${player.queue.current.uri}) \n\n**Up Next:** \n${SongsDescription}\n\n`
+            `**Đang phát:** \n[${player.queue.current.title}](${player.queue.current.uri}) \n\n**Up Next:** \n${SongsDescription}\n\n`
           )
           .addField(
-            "Total songs: \n",
+            "Tổng số bài: \n",
             `\`${player.queue.totalSize - 1}\``,
             true
           )
           .addField(
-            "Total length: \n",
+            "Tổng thời lượng: \n",
             `\`${prettyMilliseconds(player.queue.duration, {
               colonNotation: true,
             })}\``,
             true
           )
-          .addField("Requested by:", `${player.queue.current.requester}`, true)
+          .addField("Được yêu cầu bởi:", `${player.queue.current.requester}`, true)
           .addField(
-            "Current song duration:",
+            "Thời lượng nhạc đang phát:",
             `${
               client.ProgressBar(
                 player.position,

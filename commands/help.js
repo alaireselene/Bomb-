@@ -2,8 +2,8 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   name: "help",
-  description: "Information about the bot",
-  usage: "[command]",
+  description: "Thông tin về Bomb!",
+  usage: "[lệnh]",
   permissions: {
     channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
     member: [],
@@ -26,20 +26,20 @@ module.exports = {
 
     let Embed = new MessageEmbed()
       .setAuthor(
-        `Commands of ${client.user.username}`,
+        `Thông tin về ${client.user.username}`,
         client.botconfig.IconURL
       )
       .setColor(client.botconfig.EmbedColor)
       .setFooter(
-        `To get info of each command type ${
+        `Để biết thêm thông tin về từng lệnh, hãy nhập ${
           GuildDB ? GuildDB.prefix : client.botconfig.DefaultPrefix
-        }help [Command] | Have a nice day!`
+        }help [lệnh] | Ngày vui vẻ!`
       ).setDescription(`${Commands.join("\n")}
   
-  Discord Music Bot Version: v${require("../package.json").version}
+  Phiên bản bot: v${require("../package.json").version}
   [✨ Support Server](${
     client.botconfig.SupportServer
-  }) | [GitHub](https://github.com/SudhanPlayz/Discord-MusicBot) | [Dashboard](${client.botconfig.Website}) | By [SudhanPlayz](https://github.com/SudhanPlayz)`);
+  }) | Mã nguồn gốc ở: [GitHub](https://github.com/SudhanPlayz/Discord-MusicBot) | bởi [SudhanPlayz](https://github.com/SudhanPlayz) | Việt hóa bởi Sena.`);
     if (!args[0]) message.channel.send(Embed);
     else {
       let cmd =
@@ -48,15 +48,15 @@ module.exports = {
       if (!cmd)
         return client.sendTime(
           message.channel,
-          `❌ | Unable to find that command.`
+          `❌ | Không tìm thấy lệnh.`
         );
 
       let embed = new MessageEmbed()
-        .setAuthor(`Command: ${cmd.name}`, client.botconfig.IconURL)
+        .setAuthor(`Lệnh: ${cmd.name}`, client.botconfig.IconURL)
         .setDescription(cmd.description)
         .setColor("GREEN")
-        //.addField("Name", cmd.name, true)
-        .addField("Aliases", `\`${cmd.aliases.join(", ")}\``, true)
+        //.addField("Tên:", cmd.name, true)
+        .addField("Cách dùng khác:", `\`${cmd.aliases.join(", ")}\``, true)
         .addField(
           "Usage",
           `\`${GuildDB ? GuildDB.prefix : client.botconfig.DefaultPrefix}${
@@ -65,15 +65,15 @@ module.exports = {
           true
         )
         .addField(
-          "Permissions",
-          "Member: " +
+          "Quyền hạn:",
+          "Người dùng: " +
             cmd.permissions.member.join(", ") +
             "\nBot: " +
             cmd.permissions.channel.join(", "),
           true
         )
         .setFooter(
-          `Prefix - ${
+          `Tiền tố lệnh: - ${
             GuildDB ? GuildDB.prefix : client.botconfig.DefaultPrefix
           }`
         );
@@ -86,7 +86,7 @@ module.exports = {
     options: [
       {
         name: "command",
-        description: "Get information on a specific command",
+        description: "Thông tin về Bomb!",
         value: "command",
         type: 3,
         required: false,
@@ -110,20 +110,20 @@ module.exports = {
 
       let Embed = new MessageEmbed()
         .setAuthor(
-          `Commands of ${client.user.username}`,
+          `Được yêu cầu bởi ${client.user.username}`,
           client.botconfig.IconURL
         )
         .setColor(client.botconfig.EmbedColor)
         .setFooter(
-          `To get info of each command type ${
+          `Để biết thêm thông tin về từng lệnh, hãy nhập ${
             GuildDB ? GuildDB.prefix : client.botconfig.DefaultPrefix
-          }help [Command] | Have a nice day!`
+          }help [lệnh] | Ngày vui vẻ!`
         ).setDescription(`${Commands.join("\n")}
   
-  Discord Music Bot Version: v${require("../package.json").version}
+  Phiên bản bot: v${require("../package.json").version}
   [✨ Support Server](${
     client.botconfig.SupportServer
-  }) | [GitHub](https://github.com/SudhanPlayz/Discord-MusicBot) | [Dashboard](${client.botconfig.Website}) | By [SudhanPlayz](https://github.com/SudhanPlayz)`);
+  }) | Mã nguồn gốc ở: [GitHub](https://github.com/SudhanPlayz/Discord-MusicBot) | bởi [SudhanPlayz](https://github.com/SudhanPlayz) | Việt hóa bởi Sena.`);
       if (!args) return interaction.send(Embed);
       else {
         let cmd =
@@ -134,32 +134,32 @@ module.exports = {
         if (!cmd)
           return client.sendTime(
             interaction,
-            `❌ | Unable to find that command.`
+            `❌ | Không tìm thấy lệnh.`
           );
 
         let embed = new MessageEmbed()
-          .setAuthor(`Command: ${cmd.name}`, client.botconfig.IconURL)
+          .setAuthor(`Lệnh: ${cmd.name}`, client.botconfig.IconURL)
           .setDescription(cmd.description)
           .setColor("GREEN")
-          //.addField("Name", cmd.name, true)
-          .addField("Aliases", cmd.aliases.join(", "), true)
+          //.addField("Tên:", cmd.name, true)
+          .addField("Cách dùng khác:", cmd.aliases.join(", "), true)
           .addField(
-            "Usage",
+            "Cách sử dụng:",
             `\`${GuildDB ? GuildDB.prefix : client.botconfig.DefaultPrefix}${
               cmd.name
             }\`${cmd.usage ? " " + cmd.usage : ""}`,
             true
           )
           .addField(
-            "Permissions",
-            "Member: " +
+            "Quyền hạn:",
+            "Người dùng: " +
               cmd.permissions.member.join(", ") +
               "\nBot: " +
               cmd.permissions.channel.join(", "),
             true
           )
           .setFooter(
-            `Prefix - ${
+            `Tiền tố lệnh: - ${
               GuildDB ? GuildDB.prefix : client.botconfig.DefaultPrefix
             }`
           );

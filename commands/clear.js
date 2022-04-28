@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   name: "clear",
-  description: "Clears the server queue",
+  description: "Xóa trống hàng đợi.",
   usage: "",
   permissions: {
     channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
@@ -21,18 +21,18 @@ module.exports = {
     if (!player)
       return client.sendTime(
         message.channel,
-        "❌ | **Nothing is playing right now...**"
+        "❌ | **Danh sách trống...**"
       );
 
     if (!player.queue || !player.queue.length || player.queue.length === 0)
       return client.sendTime(
         message.channel,
-        "❌ | **Nothing is playing right now...**"
+        "❌ | **Danh sách trống...**"
       );
     if (!message.member.voice.channel)
       return client.sendTime(
         message.channel,
-        "❌ | **You must be in a voice channel to play something!**"
+        "❌ | **YVào 1 kênh Voice để chạy bot!**"
       );
     if (
       message.guild.me.voice.channel &&
@@ -40,10 +40,10 @@ module.exports = {
     )
       return client.sendTime(
         message.channel,
-        ":x: | **You must be in the same voice channel as me to use this command!**"
+        ":x: | **Vào cùng kênh voice với bot để chạy bot!**"
       );
     player.queue.clear();
-    await client.sendTime(message.channel, "✅ | **Cleared the queue!**");
+    await client.sendTime(message.channel, "✅ | **Đã xóa hàng đợi!**");
   },
 
   SlashCommand: {
@@ -60,7 +60,7 @@ module.exports = {
       if (!member.voice.channel)
         return client.sendTime(
           interaction,
-          "❌ | You must be in a voice channel to use this command."
+          "❌ | Vào 1 kênh voice để chạy bot!"
         );
       if (
         guild.me.voice.channel &&
@@ -68,22 +68,22 @@ module.exports = {
       )
         return client.sendTime(
           interaction,
-          ":x: | **You must be in the same voice channel as me to use this command!**"
+          ":x: | **Vào cùng kênh voice với bot để chạy bot!**"
         );
       let player = await client.Manager.get(interaction.guild_id);
       if (!player)
         return client.sendTime(
           interaction,
-          "❌ | **Nothing is playing right now...**"
+          "❌ | **Danh sách trống...**"
         );
 
       if (!player.queue || !player.queue.length || player.queue.length === 0)
         return client.sendTime(
           interaction,
-          "❌ | **Nothing is playing right now...**"
+          "❌ | **Danh sách trống...**"
         );
       player.queue.clear();
-      await client.sendTime(interaction, "✅ | **Cleared the queue!**");
+      await client.sendTime(interaction, "✅ | **Đã xóa hàng đợi!**");
     },
   },
 };

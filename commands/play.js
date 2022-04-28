@@ -4,8 +4,8 @@ const prettyMilliseconds = require("pretty-ms");
 
 module.exports = {
   name: "play",
-  description: "Play your favorite songs",
-  usage: "[song]",
+  description: "Bật bài hát yêu thích của bạn, hoặc không yêu thích, gì đó abcdef",
+  usage: "[bài hát]",
   permissions: {
     channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
     member: [],
@@ -22,7 +22,7 @@ module.exports = {
     if (!message.member.voice.channel)
       return client.sendTime(
         message.channel,
-        "❌ | **You must be in a voice channel to play something!**"
+        "❌ | **Bạn phải ở kênh voice đều điều khiển bot!**"
       );
     if (
       message.guild.me.voice.channel &&
@@ -30,7 +30,7 @@ module.exports = {
     )
       return client.sendTime(
         message.channel,
-        ":x: | **You must be in the same voice channel as me to use this command!**"
+        ":x: | **Bạn phải ở kênh voice để điều khiển bot!**"
       );
     let SearchString = args.join(" ");
     if (!SearchString)
@@ -39,11 +39,11 @@ module.exports = {
         `**Usage - **\`${GuildDB.prefix}play [song]\``
       );
     let CheckNode = client.Manager.nodes.get(client.botconfig.Lavalink.id);
-    let Searching = await message.channel.send(":mag_right: Searching...");
+    let Searching = await message.channel.send(":mag_right: Đang tìm bài hát...");
     if (!CheckNode || !CheckNode.connected) {
       return client.sendTime(
         message.channel,
-        "❌ | **Lavalink node not connected**"
+        "❌ | **Lavalink chưa khởi động. Hãy nhắn tin cho Sena để báo lỗi.**"
       );
     }
     const player = client.Manager.create({
@@ -61,7 +61,7 @@ module.exports = {
     if (!player)
       return client.sendTime(
         message.channel,
-        "❌ | **Nothing is playing right now...**"
+        "❌ | **Danh sách trống**"
       );
 
     if (player.state != "CONNECTED") await player.connect();
@@ -84,12 +84,12 @@ module.exports = {
           )
             player.play();
           SongAddedEmbed.setAuthor(
-            `Playlist added to queue`,
+            `Đã thêm danh sách phát vào hàng đợi!`,
             message.author.displayAvatarURL()
           );
           SongAddedEmbed.addField(
-            "Enqueued",
-            `\`${Searched.tracks.length}\` songs`,
+            "Thêm vào hàng đợi:",
+            `\`${Searched.tracks.length}\` bài hát`,
             false
           );
           //SongAddedEmbed.addField("Playlist duration", `\`${prettyMilliseconds(Searched.tracks, { colonNotation: true })}\``, false)
@@ -100,19 +100,19 @@ module.exports = {
           );
           if (!player.playing && !player.paused && !player.queue.size)
             player.play();
-          SongAddedEmbed.setAuthor(`Added to queue`, client.botconfig.IconURL);
+          SongAddedEmbed.setAuthor(`Đã thêm vào hàng đợi:`, client.botconfig.IconURL);
           SongAddedEmbed.setDescription(
             `[${Searched.tracks[0].info.title}](${Searched.tracks[0].info.uri})`
           );
           SongAddedEmbed.addField(
-            "Author",
+            "Từ kênh:",
             Searched.tracks[0].info.author,
             true
           );
           //SongAddedEmbed.addField("Duration", `\`${prettyMilliseconds(Searched.tracks[0].length, { colonNotation: true })}\``, true);
           if (player.queue.totalSize > 1)
             SongAddedEmbed.addField(
-              "Position in queue",
+              "Vị trí trong hàng đợi:",
               `${player.queue.size - 0}`,
               true
             );
@@ -120,7 +120,7 @@ module.exports = {
         } else {
           return client.sendTime(
             message.channel,
-            "**No matches found for - **" + SearchString
+            "**Không tìm thấy kết quả phù hợp cho - **" + SearchString
           );
         }
       } else {
@@ -128,13 +128,13 @@ module.exports = {
         if (!player)
           return client.sendTime(
             message.channel,
-            "❌ | **Nothing is playing right now...**"
+            "❌ | **Danh sách trống...**"
           );
 
         if (Searched.loadType === "NO_MATCHES")
           return client.sendTime(
             message.channel,
-            "**No matches found for - **" + SearchString
+            "**Không tìm thấy kết quả phù hợp cho - **" + SearchString
           );
         else if (Searched.loadType == "PLAYLIST_LOADED") {
           player.queue.add(Searched.tracks);
@@ -145,20 +145,20 @@ module.exports = {
           )
             player.play();
           SongAddedEmbed.setAuthor(
-            `Playlist added to queue`,
+            `Đã thêm Playlist vào hàng đợi`,
             client.botconfig.IconURL
           );
-          // SongAddedEmbed.setThumbnail(Searched.tracks[0].displayThumbnail());
+          SongAddedEmbed.setThumbnail(Searched.tracks[0].displayThumbnail());
           SongAddedEmbed.setDescription(
             `[${Searched.playlist.name}](${SearchString})`
           );
           SongAddedEmbed.addField(
-            "Enqueued",
-            `\`${Searched.tracks.length}\` songs`,
+            "Thêm vào hàng đợi:",
+            `\`${Searched.tracks.length}\` bài hát.`,
             false
           );
           SongAddedEmbed.addField(
-            "Playlist duration",
+            "Tổng thời lượng:",
             `\`${prettyMilliseconds(Searched.playlist.duration, {
               colonNotation: true,
             })}\``,
@@ -169,15 +169,15 @@ module.exports = {
           player.queue.add(Searched.tracks[0]);
           if (!player.playing && !player.paused && !player.queue.size)
             player.play();
-          SongAddedEmbed.setAuthor(`Added to queue`, client.botconfig.IconURL);
+          SongAddedEmbed.setAuthor(`Đã thêm vào danh sách!`, client.botconfig.IconURL);
 
-          // SongAddedEmbed.setThumbnail(Searched.tracks[0].displayThumbnail());
+          SongAddedEmbed.setThumbnail(Searched.tracks[0].displayThumbnail());
           SongAddedEmbed.setDescription(
             `[${Searched.tracks[0].title}](${Searched.tracks[0].uri})`
           );
-          SongAddedEmbed.addField("Author", Searched.tracks[0].author, true);
+          SongAddedEmbed.addField("Từ kênh:", Searched.tracks[0].author, true);
           SongAddedEmbed.addField(
-            "Duration",
+            "Thời lượng:",
             `\`${prettyMilliseconds(Searched.tracks[0].duration, {
               colonNotation: true,
             })}\``,
@@ -185,7 +185,7 @@ module.exports = {
           );
           if (player.queue.totalSize > 1)
             SongAddedEmbed.addField(
-              "Position in queue",
+              "Vị trí trong hàng đợi:",
               `${player.queue.size - 0}`,
               true
             );
@@ -196,7 +196,7 @@ module.exports = {
       console.log(e);
       return client.sendTime(
         message.channel,
-        "**No matches found for - **" + SearchString
+        "**Không tìm thấy kết quả phù hợp cho - **" + SearchString
       );
     }
   },
@@ -208,7 +208,7 @@ module.exports = {
         value: "song",
         type: 3,
         required: true,
-        description: "Play music in the voice channel",
+        description: "Phát nhạc.",
       },
     ],
     /**
@@ -226,7 +226,7 @@ module.exports = {
       if (!member.voice.channel)
         return client.sendTime(
           interaction,
-          "❌ | **You must be in a voice channel to use this command.**"
+          "❌ | **Hãy tham gia kênh Voice để điều khiển bot!**"
         );
       if (
         guild.me.voice.channel &&
@@ -234,13 +234,13 @@ module.exports = {
       )
         return client.sendTime(
           interaction,
-          ":x: | **You must be in the same voice channel as me to use this command!**"
+          ":x: | **Ở cùng kênh Voice với bot để điều khiển bot!**"
         );
       let CheckNode = client.Manager.nodes.get(client.botconfig.Lavalink.id);
       if (!CheckNode || !CheckNode.connected) {
         return client.sendTime(
           interaction,
-          "❌ | **Lavalink node not connected**"
+          "❌ | **Lavalink lỗi. Nhắn tin với Sena để báo lỗi!**"
         );
       }
 
@@ -249,7 +249,6 @@ module.exports = {
         voiceChannel: voiceChannel.id,
         textChannel: interaction.channel_id,
         selfDeafen: client.botconfig.ServerDeafen,
-        volume: client.botconfig.DefaultVolume,
       });
       if (player.state != "CONNECTED") await player.connect();
       let search = interaction.data.options[0].value;
@@ -265,14 +264,14 @@ module.exports = {
             if (!player.queue.current) player.destroy();
             return client.sendError(
               interaction,
-              `❌ | **There was an error while searching**`
+              `❌ | **Có lỗi xảy ra khi tìm kiếm. Vui lòng thử lại sau!**`
             );
 
           case "NO_MATCHES":
             if (!player.queue.current) player.destroy();
             return client.sendTime(
               interaction,
-              "❌ | **No results were found.**"
+              "❌ | **Không thấy gì.**"
             );
           case "TRACK_LOADED":
             player.queue.add(TrackUtils.build(Searched.tracks[0], member.user));
@@ -280,7 +279,7 @@ module.exports = {
               player.play();
             let SongAddedEmbed = new MessageEmbed();
             SongAddedEmbed.setAuthor(
-              `Added to queue`,
+              `Đã thêm vào hàng đợi!`,
               client.botconfig.IconURL
             );
             SongAddedEmbed.setColor(client.botconfig.EmbedColor);
@@ -288,13 +287,13 @@ module.exports = {
               `[${Searched.tracks[0].info.title}](${Searched.tracks[0].info.uri})`
             );
             SongAddedEmbed.addField(
-              "Author",
+              "Từ kênh:",
               Searched.tracks[0].info.author,
               true
             );
             if (player.queue.totalSize > 1)
               SongAddedEmbed.addField(
-                "Position in queue",
+                "Vị trí trong hàng đợi:",
                 `${player.queue.size - 0}`,
                 true
               );
@@ -310,10 +309,10 @@ module.exports = {
             SongAdded.setDescription(
               `[${Searched.tracks[0].info.title}](${Searched.tracks[0].info.uri})`
             );
-            SongAdded.addField("Author", Searched.tracks[0].info.author, true);
+            SongAdded.addField("Từ kênh:", Searched.tracks[0].info.author, true);
             if (player.queue.totalSize > 1)
               SongAdded.addField(
-                "Position in queue",
+                "Vị trí trong hàng đợi:",
                 `${player.queue.size - 0}`,
                 true
               );
@@ -332,15 +331,15 @@ module.exports = {
               player.play();
             let Playlist = new MessageEmbed();
             Playlist.setAuthor(
-              `Playlist added to queue`,
+              `Đã thêm danh sách phát vào hàng đợi!`,
               client.botconfig.IconURL
             );
             Playlist.setDescription(
               `[${Searched.playlistInfo.name}](${interaction.data.options[0].value})`
             );
             Playlist.addField(
-              "Enqueued",
-              `\`${Searched.tracks.length}\` songs`,
+              "Đã thêm vào hàng đợi:",
+              `\`${Searched.tracks.length}\` bài hát.`,
               false
             );
             return interaction.send(Playlist);
@@ -352,13 +351,13 @@ module.exports = {
             if (!player.queue.current) player.destroy();
             return client.sendError(
               interaction,
-              `:x: | **There was an error while searching**`
+              `:x: | **Đã có lỗi xảy ra khi tìm. Vui lòng thử lại sau!**`
             );
           }
         } catch (err) {
           return client.sendError(
             interaction,
-            `There was an error while searching: ${err.message}`
+            `Lỗi xảy ra khi tìm kiếm: ${err.message}`
           );
         }
         switch (res.loadType) {
@@ -366,7 +365,7 @@ module.exports = {
             if (!player.queue.current) player.destroy();
             return client.sendTime(
               interaction,
-              "❌ | **No results were found.**"
+              "❌ | **Không tìm thấy.**"
             );
           case "TRACK_LOADED":
             player.queue.add(res.tracks[0]);
@@ -374,17 +373,17 @@ module.exports = {
               player.play();
             let SongAddedEmbed = new MessageEmbed();
             SongAddedEmbed.setAuthor(
-              `Added to queue`,
+              `Đã thêm vào hàng đợi!`,
               client.botconfig.IconURL
             );
-            //SongAddedEmbed.setThumbnail(res.tracks[0].displayThumbnail());
+            SongAddedEmbed.setThumbnail(res.tracks[0].displayThumbnail());
             SongAddedEmbed.setColor(client.botconfig.EmbedColor);
             SongAddedEmbed.setDescription(
               `[${res.tracks[0].title}](${res.tracks[0].uri})`
             );
-            SongAddedEmbed.addField("Author", res.tracks[0].author, true);
+            SongAddedEmbed.addField("Từ kênh:", res.tracks[0].author, true);
             SongAddedEmbed.addField(
-              "Duration",
+              "Thời lượng:",
               `\`${prettyMilliseconds(res.tracks[0].duration, {
                 colonNotation: true,
               })}\``,
@@ -392,21 +391,21 @@ module.exports = {
             );
             if (player.queue.totalSize > 1)
               SongAddedEmbed.addField(
-                "Position in queue",
+                "Vị trí trong hàng đợi:",
                 `${player.queue.size - 0}`,
                 true
               );
             return interaction.send(SongAddedEmbed);
 
-           case "PLAYLIST_LOADED":
+          case "PLAYLIST_LOADED":
             player.queue.add(res.tracks);
             await player.play();
             let SongAdded = new MessageEmbed();
             SongAdded.setAuthor(
-              `Playlist added to queue`,
+              `Đã thêm danh sách phát vào hàng đợi.`,
               client.botconfig.IconURL
             );
-            //SongAdded.setThumbnail(res.tracks[0].displayThumbnail());
+            SongAdded.setThumbnail(res.tracks[0].displayThumbnail());
             SongAdded.setDescription(
               `[${res.playlist.name}](${interaction.data.options[0].value})`
             );
@@ -430,13 +429,13 @@ module.exports = {
             if (!player.playing && !player.paused && !player.queue.length) {
               let SongAddedEmbed = new MessageEmbed();
               SongAddedEmbed.setAuthor(
-                `Added to queue`,
+                `Đã thêm vào hàng đợi`,
                 client.botconfig.IconURL
               );
               SongAddedEmbed.setThumbnail(track.displayThumbnail());
               SongAddedEmbed.setColor(client.botconfig.EmbedColor);
               SongAddedEmbed.setDescription(`[${track.title}](${track.uri})`);
-              SongAddedEmbed.addField("Author", track.author, true);
+              SongAddedEmbed.addField("Từ kênh:", track.author, true);
               SongAddedEmbed.addField(
                 "Duration",
                 `\`${prettyMilliseconds(track.duration, {
@@ -446,7 +445,7 @@ module.exports = {
               );
               if (player.queue.totalSize > 1)
                 SongAddedEmbed.addField(
-                  "Position in queue",
+                  "Vị trí trong hàng đợi:",
                   `${player.queue.size - 0}`,
                   true
                 );
@@ -455,13 +454,13 @@ module.exports = {
             } else {
               let SongAddedEmbed = new MessageEmbed();
               SongAddedEmbed.setAuthor(
-                `Added to queue`,
+                `Đã thêm vào hàng đợi`,
                 client.botconfig.IconURL
               );
               SongAddedEmbed.setThumbnail(track.displayThumbnail());
               SongAddedEmbed.setColor(client.botconfig.EmbedColor);
               SongAddedEmbed.setDescription(`[${track.title}](${track.uri})`);
-              SongAddedEmbed.addField("Author", track.author, true);
+              SongAddedEmbed.addField("Từ kênh:", track.author, true);
               SongAddedEmbed.addField(
                 "Duration",
                 `\`${prettyMilliseconds(track.duration, {
@@ -471,7 +470,7 @@ module.exports = {
               );
               if (player.queue.totalSize > 1)
                 SongAddedEmbed.addField(
-                  "Position in queue",
+                  "Vị trí trong hàng đợi:",
                   `${player.queue.size - 0}`,
                   true
                 );

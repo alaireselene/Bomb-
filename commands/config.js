@@ -2,8 +2,8 @@ const { MessageEmbed, MessageReaction } = require("discord.js");
 
 module.exports = {
   name: "config",
-  description: "Edit the bot settings",
-  usage: "",
+  description: "Cài đặt bot.",
+  usage: "cứ thế mà dùng",
   permissions: {
     channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
     member: ["ADMINISTRATOR"],
@@ -18,15 +18,15 @@ module.exports = {
    */
   run: async (client, message, args, { GuildDB }) => {
     let Config = new MessageEmbed()
-      .setAuthor("Server Config", client.botconfig.IconURL)
+      .setAuthor("Tùy chỉnh Server", client.botconfig.IconURL)
       .setColor(client.botconfig.EmbedColor)
-      .addField("Prefix", GuildDB.prefix, true)
-      .addField("DJ Role", GuildDB.DJ ? `<@&${GuildDB.DJ}>` : "Not Set", true)
+      .addField("Tiền tố", GuildDB.prefix, true)
+      .addField("Role DJ", GuildDB.DJ ? `<@&${GuildDB.DJ}>` : "Không có DJ", true)
       .setDescription(`
-What would you like to edit?
+Muốn sửa gì nào?
 
-:one: - Server Prefix
-:two: - DJ Role
+:one: - Tiền tố bot
+:two: - Role DJ
 `);
 
     let ConfigMessage = await message.channel.send(Config);
@@ -41,7 +41,7 @@ What would you like to edit?
       ConfigMessage.reactions.removeAll();
       client.sendTime(
         message.channel,
-        "❌ | **You took too long to respond. If you want to edit the settings, run the command again!**"
+        "❌ | **Lệnh tự hủy. Vui lòng nhập lệnh từ đầu.**"
       );
       ConfigMessage.delete(Config);
     });
@@ -58,7 +58,7 @@ What would you like to edit?
     if (em._emoji.name === "1️⃣") {
       await client.sendTime(
         message.channel,
-        "What do you want to change the prefix to?"
+        "Nhập tiền tố mới:"
       );
       let prefix = await message.channel.awaitMessages(
         (msg) => msg.author.id === message.author.id,
@@ -67,7 +67,7 @@ What would you like to edit?
       if (!prefix.first())
         return client.sendTime(
           message.channel,
-          "You took too long to respond."
+          "Lệnh tự hủy."
         );
       prefix = prefix.first();
       prefix = prefix.content;
@@ -79,12 +79,12 @@ What would you like to edit?
 
       client.sendTime(
         message.channel,
-        `Successfully saved guild prefix as \`${prefix}\``
+        `Đã đỏi tiền tố sang \`${prefix}\``
       );
     } else {
       await client.sendTime(
         message.channel,
-        "Please mention the role you want `DJ's` to have."
+        "Vui lòng ping role cần đăt để set role `DJ's`."
       );
       let role = await message.channel.awaitMessages(
         (msg) => msg.author.id === message.author.id,
@@ -93,13 +93,13 @@ What would you like to edit?
       if (!role.first())
         return client.sendTime(
           message.channel,
-          "You took too long to respond."
+          "Lệnh tự hủy."
         );
       role = role.first();
       if (!role.mentions.roles.first())
         return client.sendTime(
           message.channel,
-          "Please mention the role that you want for DJ's only."
+          "Vui lòng ping role cần đăt để set role `DJ's`."
         );
       role = role.mentions.roles.first();
 
@@ -110,7 +110,7 @@ What would you like to edit?
 
       client.sendTime(
         message.channel,
-        "Successfully saved DJ role as <@&" + role.id + ">"
+        "Role `DJ` hiện tại <@&" + role.id + ">"
       );
     }
   },
@@ -119,13 +119,13 @@ What would you like to edit?
     options: [
       {
         name: "prefix",
-        description: "Check the bot's prefix",
+        description: "Kiểm tra tiền tố.",
         type: 1,
         required: false,
         options: [
           {
             name: "symbol",
-            description: "Set the bot's prefix",
+            description: "Đặt tiền tố cho bot.",
             type: 3,
             required: false,
           },
@@ -133,13 +133,13 @@ What would you like to edit?
       },
       {
         name: "dj",
-        description: "Check the DJ role",
+        description: "Đặt role `DJ`",
         type: 1,
         required: false,
         options: [
           {
             name: "role",
-            description: "Set the DJ role",
+            description: "Đặt role 'DJ'",
             type: 8,
             required: false,
           },
@@ -171,13 +171,13 @@ What would you like to edit?
           });
           client.sendTime(
             interaction,
-            `The prefix has now been set to \`${prefix}\``
+            `Tiền tố hiện tại: \`${prefix}\``
           );
         } else {
           //has not prefix
           client.sendTime(
             interaction,
-            `The prefix of this server is \`${GuildDB.prefix}\``
+            `Tiền tố hiện tại: \`${GuildDB.prefix}\``
           );
         }
       } else if (config === "djrole") {
@@ -195,7 +195,7 @@ What would you like to edit?
           });
           client.sendTime(
             interaction,
-            `Successfully changed the DJ role of this server to ${role.name}`
+            `Role DJ hiện tại: ${role.name}`
           );
         } else {
           /**
@@ -204,7 +204,7 @@ What would you like to edit?
           let role = interaction.guild.roles.cache.get(GuildDB.DJ);
           client.sendTime(
             interaction,
-            `The DJ role of this server is ${role.name}`
+            `Role DJ hiện tại: ${role.name}`
           );
         }
       }

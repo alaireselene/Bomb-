@@ -1,6 +1,6 @@
 {
-  "name": "Discord-MusicBot",
-  "description": "Very simple discord music bot with the discord.js with Song Name playing. It can able to play music with the song name",
+  "name": "Bomb! Bot",
+  "description": "Bot nhạc dành riêng cho Eden's Land. Code bởi Sena dựa trên Discord-Musicbot",
   "repository": "https://github.com/SudhanPlayz/Discord-MusicBot",
   "logo": "https://cdn.discordapp.com/avatars/750613142488481843/e6326038dbe2243ca551ba5b6ecd8bf2.png?size=1024",
   "keywords": [
@@ -12,39 +12,33 @@
     "lavalink",
     "dashboard"
   ],
-  "image": "heroku/nodejs",
-  "buildpacks": [
-    {
-      "url": "heroku/nodejs"
-    }
-  ],
   "env": {
     "Prefix": {
-      "description": "The Discord Bot Prefix",
+      "description": "Tiền tố lệnh",
       "required": "true"
     },
     "Token": {
-      "description": "The Discord Bot Token (https://discord.com/developers/applications)",
+      "description": "Bot Token",
       "required": "true"
     },
     "Discord_ClientID": {
-      "description": "The Discord Bot ClientID",
+      "description": "ClientID",
       "required": "true"
     },
     "Discord_ClientSecret": {
-      "description": "The Discord Bot ClientSecret",
+      "description": "Client Secret",
       "required": "true"
     },
     "Website": {
-      "description": "URL of your webserver (Example: https://domain.xyz). Change this if you want to use the web-dashboard.",
-      "value": "http://localhost"
+      "description": "URL của Webserver (Ví dụ: https://domain.xyz).",
+      "value": "https://bot.bomb-bot.ga"
     },
     "Spotify_ClientID": {
-      "description": "Spotify ClientID. This is used if you want to use Spotify features for your bot. (https://developer.spotify.com/dashboard/)",
+      "description": "Spotify ClientID.",
       "required": "true"
     },
     "Spotify_ClientSecret": {
-      "description": "Spotify ClientSecret. This is used if you want to use Spotify features for your bot. (https://developer.spotify.com/dashboard/)",
+      "description": "Spotify ClientSecret.",
       "required": "true"
     }
   }

@@ -33,15 +33,15 @@ module.exports = (io) => {
         if (!player) {
           socket.emit("server", {
             queue: 0,
-            songsLoop: "Disabled",
-            queueLoop: "Disabled",
+            songsLoop: "OFF",
+            queueLoop: "OFF",
             prefix: GuildDB ? GuildDB.prefix : Client.botconfig.DefaultPrefix,
           });
         } else {
           socket.emit("server", {
             queue: player.queue ? player.queue.length : 0,
-            songsLoop: player.trackRepeat ? "Enabled" : "Disabled",
-            queueLoop: player.queueRepeat ? "Enabled" : "Disabled",
+            songsLoop: player.trackRepeat ? "ON" : "OFF",
+            queueLoop: player.queueRepeat ? "ON" : "OFF",
             prefix: GuildDB ? GuildDB.prefix : Client.botconfig.DefaultPrefix,
             bar: player.queue.current
               ? Client.ProgressBar(
@@ -56,7 +56,9 @@ module.exports = (io) => {
                 })
               : false,
             position: player.queue.current
-              ? prettyMilliseconds(player.position, { colonNotation: true })
+            ? prettyMilliseconds(player.position, {
+                  colonNotation: true,
+                })
               : false,
             nowPlaying: player.queue.current ? player.queue.current : false,
           });

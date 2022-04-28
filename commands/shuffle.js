@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   name: "shuffle",
-  description: "Shuffles the queue",
+  description: "Xáo hàng chờ",
   usage: "",
   permissions: {
     channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
@@ -21,12 +21,12 @@ module.exports = {
     if (!player)
       return client.sendTime(
         message.channel,
-        "❌ | **Nothing is playing right now...**"
+        "❌ | **Hàng đợi hiện trống... Bạn có thể bật gì đó chăng, ví dụ như Hút pin của Nam CT?**"
       );
     if (!message.member.voice.channel)
       return client.sendTime(
         message.channel,
-        "❌ | **You must be in a voice channel to use this command!**"
+        "❌ | **Vào 1 kênh voice để chạy bot!**"
       );
     if (
       message.guild.me.voice.channel &&
@@ -34,7 +34,7 @@ module.exports = {
     )
       return client.sendTime(
         message.channel,
-        ":x: | **You must be in the same voice channel as me to use this command!**"
+        ":x: | **Vào cùng kênh voice với bot để chạy bot!**"
       );
     if (!player.queue || !player.queue.length || player.queue.length === 0)
       return client.sendTime(
@@ -42,7 +42,7 @@ module.exports = {
         "❌ | **Not enough songs in the queue to shuffle!**"
       );
     player.queue.shuffle();
-    await client.sendTime(message.channel, "✅ | Shuffled the queue!");
+    await client.sendTime(message.channel, "✅ | Đã xáo hàng chờ!");
   },
   SlashCommand: {
     /**
@@ -59,7 +59,7 @@ module.exports = {
       if (!member.voice.channel)
         return client.sendTime(
           interaction,
-          "❌ | **You must be in a voice channel to use this command.**"
+          "❌ | **Vào kênh Vocie để điều khiển bot!**"
         );
       if (
         guild.me.voice.channel &&
@@ -67,14 +67,14 @@ module.exports = {
       )
         return client.sendTime(
           interaction,
-          ":x: | **You must be in the same voice channel as me to use this command!**"
+          ":x: | **Vào cùng kênh voice với bot để chạy bot!**"
         );
 
       let player = await client.Manager.get(interaction.guild_id);
       if (!player)
         return client.sendTime(
           interaction.channel,
-          "❌ | **Nothing is playing right now...**"
+          "❌ | **Hàng đợi hiện trống... Bạn có thể bật gì đó chăng, ví dụ như Hút pin của Nam CT?**"
         );
       if (!player.queue || !player.queue.length || player.queue.length === 0)
         return client.sendTime(
@@ -82,7 +82,7 @@ module.exports = {
           "❌ | **Not enough songs in the queue to shuffle!**"
         );
       player.queue.shuffle();
-      client.sendTime(interaction, "✅ | Shuffled the queue!");
+      client.sendTime(interaction, "✅ | Đã xáo hàng chờ!");
     },
   },
 };

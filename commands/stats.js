@@ -5,7 +5,7 @@ const moment = require("moment");
 
 module.exports = {
   name: "stats",
-  description: "Get information about the bot",
+  description: "Xem thông tin hiện tại của bot.",
   usage: "",
   permissions: {
     channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
@@ -31,7 +31,7 @@ module.exports = {
 
       const embed = new MessageEmbed();
       embed.setColor(client.botconfig.EmbedColor);
-      embed.setTitle(`Stats from \`${client.user.username}\``);
+      embed.setTitle(`Thông tin của \`${client.user.username}\``);
       embed.addFields(
         {
           name: ":ping_pong: Ping",
@@ -44,7 +44,7 @@ module.exports = {
           inline: true,
         },
         {
-          name: ":file_cabinet: Memory",
+          name: ":file_cabinet: Tài nguyên dùng",
           value: `┕\`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(
             2
           )}mb\``,
@@ -54,24 +54,24 @@ module.exports = {
 
       embed.addFields(
         {
-          name: ":homes: Servers",
+          name: ":homes: Số Server Discord",
           value: `┕\`${client.guilds.cache.size}\``,
           inline: true,
         },
         {
-          name: ":busts_in_silhouette: Users",
+          name: ":busts_in_silhouette: Số người dùng",
           value: `┕\`${client.users.cache.size}\``,
           inline: true,
         },
         {
-          name: ":control_knobs: API Latency",
+          name: ":control_knobs: Độ trễ API",
           value: `┕\`${message.client.ws.ping}ms\``,
           inline: true,
         }
       );
       embed.addFields(
         {
-          name: ":robot: Version",
+          name: ":robot: Phiên bản",
           value: `┕\`v${require("../package.json").version}\``,
           inline: true,
         },
@@ -123,7 +123,7 @@ module.exports = {
             inline: true,
           },
           {
-            name: ":file_cabinet: Memory",
+            name: ":file_cabinet: Tài nguyên",
             value: `┕\`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(
               2
             )}mb\``,
@@ -133,24 +133,24 @@ module.exports = {
 
         embed.addFields(
           {
-            name: ":homes: Servers",
+            name: ":homes: Số Discord Server",
             value: `┕\`${client.guilds.cache.size}\``,
             inline: true,
           },
           {
-            name: ":busts_in_silhouette: Users",
+            name: ":busts_in_silhouette: Số người dùng",
             value: `┕\`${client.users.cache.size}\``,
             inline: true,
           },
           {
-            name: ":control_knobs: API Latency",
+            name: ":control_knobs: Độ trễ API",
             value: `┕\`${client.ws.ping}ms\``,
             inline: true,
           }
         );
         embed.addFields(
           {
-            name: ":robot: Version",
+            name: ":robot: Phiên bản",
             value: `┕\`v${require("../package.json").version}\``,
             inline: true,
           },

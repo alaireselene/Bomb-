@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   name: "invite",
-  description: "To invite me to your server",
+  description: "Để rủ tớ vào server của cậu",
   usage: "",
   permissions: {
     channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
@@ -19,12 +19,12 @@ module.exports = {
   run: async (client, message, args, { GuildDB }) => {
     let embed = new MessageEmbed()
       .setAuthor(
-        "Invite " + client.user.tag + " to your server!",
+        "Rủ " + client.user.tag + " vào server của cậu!",
         client.user.displayAvatarURL()
       )
       .setColor("BLUE")
       .setDescription(
-        `You can invite me by clicking [here](https://discord.com/oauth2/authorize?client_id=${
+        `Cậu có thể rủ tớ nhập bọn bằng cách bấm vào [đây](https://discord.com/oauth2/authorize?client_id=${
           client.botconfig.ClientID
         }&permissions=${
           client.botconfig.Permissions
@@ -45,12 +45,12 @@ module.exports = {
     run: async (client, interaction, args, { GuildDB }) => {
       let embed = new MessageEmbed()
         .setAuthor(
-          "Invite " + client.user.tag + " to your server!",
+          "Rủ " + client.user.tag + " vào server của cậu!",
           client.user.displayAvatarURL()
         )
         .setColor("BLUE")
         .setDescription(
-          `You can invite me by clicking [here](https://discord.com/oauth2/authorize?client_id=${
+          `Cậu có thể rủ tớ nhập bọn bằng cách bấm vào [đây](https://discord.com/oauth2/authorize?client_id=${
             client.botconfig.ClientID
           }&permissions=${
             client.botconfig.Permissions

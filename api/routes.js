@@ -38,8 +38,12 @@ api.get("/dashboard", Auth, (req, res) => {
   res.sendFile(join(__dirname, "..", "views", "dashboard.html"));
 });
 
-api.get("/servers", Auth, (req, res) => {
-  res.sendFile(join(__dirname, "..", "views", "servers.html"));
+api.get("/user", Auth, (req, res) => {
+  res.sendFile(join(__dirname, "..", "views", "userinfo.html"));
+});
+
+api.get("/faq", Auth, (req, res) => {
+  res.sendFile(join(__dirname, "..", "views", "faq.html"));
 });
 
 api.get("/servers/:id", Auth, (req, res) => {

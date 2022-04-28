@@ -3,7 +3,7 @@ const prettyMilliseconds = require("pretty-ms");
 
 module.exports = {
   name: "grab",
-  description: "Saves the current song to your Direct Messages",
+  description: "Lưu lại bài hát trong Inbox Discord.",
   usage: "",
   permissions: {
     channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
@@ -22,17 +22,17 @@ module.exports = {
     if (!player)
       return client.sendTime(
         message.channel,
-        "❌ | **Nothing is playing right now...**"
+        "❌ | **Danh sách trống...**"
       );
     if (!player.playing)
       return client.sendTime(
         message.channel,
-        "❌ | **Nothing is playing right now...**"
+        "❌ | **Danh sách trống...**"
       );
     if (!message.member.voice.channel)
       return client.sendTime(
         message.channel,
-        "❌ | **You must be in a voice channel to play something!**"
+        "❌ | **Vào kênh Vocie để điều khiển bot.**"
       );
     if (
       message.guild.me.voice.channel &&
@@ -40,13 +40,13 @@ module.exports = {
     )
       return client.sendTime(
         message.channel,
-        ":x: | **You must be in the same voice channel as me to use this command!**"
+        ":x: | **Vào cùng kênh Voice với bot để điều khiển bot.**"
       );
     message.author
       .send(
         new MessageEmbed()
           .setAuthor(
-            `Song saved`,
+            `Mình đã lưu lại bài này cho bạn rồi nè ~`,
             client.user.displayAvatarURL({
               dynamic: true,
             })
@@ -58,32 +58,32 @@ module.exports = {
           .setColor(client.botconfig.EmbedColor)
           .setTitle(`**${player.queue.current.title}**`)
           .addField(
-            `⌛ Duration: `,
+            `⌛ Thời lượng: `,
             `\`${prettyMilliseconds(player.queue.current.duration, {
               colonNotation: true,
             })}\``,
             true
           )
-          .addField(`🎵 Author: `, `\`${player.queue.current.author}\``, true)
+          .addField(`🎵 Từ kênh: `, `\`${player.queue.current.author}\``, true)
           .addField(
-            `▶ Play it:`,
+            `▶ Phát ngay bằng cách nhập lệnh:`,
             `\`${
               GuildDB ? GuildDB.prefix : client.botconfig.DefaultPrefix
             }play ${player.queue.current.uri}\``
           )
-          .addField(`🔎 Saved in:`, `<#${message.channel.id}>`)
+          .addField(`🔎 Bài hát được tìm thấy ở:`, `<#${message.channel.id}>`)
           .setFooter(
-            `Requested by: ${player.queue.current.requester.tag}`,
+            `Được yêu cầu bởi: ${player.queue.current.requester.tag}`,
             player.queue.current.requester.displayAvatarURL({
               dynamic: true,
             })
           )
       )
       .catch((e) => {
-        return message.channel.send("**:x: Your DMs are disabled**");
+        return message.channel.send("**:x: Bạn khoá DMs rồi kìa**");
       });
 
-    client.sendTime(message.channel, "✅ | **Check your DMs!**");
+    client.sendTime(message.channel, "✅ | **Kiểm tra DMs nhé!**");
   },
   SlashCommand: {
     /**
@@ -101,17 +101,17 @@ module.exports = {
       if (!player)
         return client.sendTime(
           interaction,
-          "❌ | **Nothing is playing right now...**"
+          "❌ | **Hàng đợi hiện trống... Bạn có thể bật gì đó chăng, ví dụ như Hút pin của Nam CT?**"
         );
       if (!player.playing)
         return client.sendTime(
           interaction,
-          "❌ | **Nothing is playing right now...**"
+          "❌ | **Hàng đợi hiện trống... Bạn có thể bật gì đó chăng, ví dụ như Hút pin của Nam CT?**"
         );
       if (!member.voice.channel)
         return client.sendTime(
           interaction,
-          "❌ | **You must be in a voice channel to use this command.**"
+          "❌ | **Vào kênh Vocie để điều khiển bot!**"
         );
       if (
         guild.me.voice.channel &&
@@ -119,11 +119,11 @@ module.exports = {
       )
         return client.sendTime(
           interaction,
-          ":x: | **You must be in the same voice channel as me to use this command!**"
+          ":x: | **Bạn phải ở cùng kênh voice với Bot để sử dụng Bot!**"
         );
       try {
         let embed = new MessageEmbed()
-          .setAuthor(`Song saved: `, client.user.displayAvatarURL())
+          .setAuthor(`Mình đã lưu lại bài này cho bạn rồi nè ~`, client.user.displayAvatarURL())
           .setThumbnail(
             `https://img.youtube.com/vi/${player.queue.current.identifier}/mqdefault.jpg`
           )
@@ -132,32 +132,32 @@ module.exports = {
           .setTimestamp()
           .setTitle(`**${player.queue.current.title}**`)
           .addField(
-            `⌛ Duration: `,
+            `⌛ Thời lượng: `,
             `\`${prettyMilliseconds(player.queue.current.duration, {
               colonNotation: true,
             })}\``,
             true
           )
-          .addField(`🎵 Author: `, `\`${player.queue.current.author}\``, true)
+          .addField(`🎵 Từ kênh: `, `\`${player.queue.current.author}\``, true)
           .addField(
-            `▶ Play it:`,
+            `▶ Phát ngay bằng cách nhập lệnh:`,
             `\`${
               GuildDB ? GuildDB.prefix : client.botconfig.DefaultPrefix
             }play ${player.queue.current.uri}\``
           )
-          .addField(`🔎 Saved in:`, `<#${interaction.channel_id}>`)
+          .addField(`🔎 Bài hát được tìm thấy ở:`, `<#${interaction.channel_id}>`)
           .setFooter(
-            `Requested by: ${player.queue.current.requester.tag}`,
+            `Được yêu cầu bởi: ${player.queue.current.requester.tag}`,
             player.queue.current.requester.displayAvatarURL({
               dynamic: true,
             })
           );
         user.send(embed);
       } catch (e) {
-        return client.sendTime(interaction, "**:x: Your DMs are disabled**");
+        return client.sendTime(interaction, "**:x: Bạn tắt DMs rồi kìa!**");
       }
 
-      client.sendTime(interaction, "✅ | **Check your DMs!**");
+      client.sendTime(interaction, "✅ | **Kiểm tra DMs nhé!**");
     },
   },
 };

@@ -9,9 +9,6 @@ const path = require("path");
 const Express = require("express");
 const Logger = require("./Logger");
 const prettyMilliseconds = require("pretty-ms");
-const deezer = require("erela.js-deezer");
-const apple = require("erela.js-apple");
-const facebook = require("erela.js-facebook");
 
 //Class extending Stuff
 require("discordjs-activity"); //Epic Package, For more details: https://www.npmjs.com/package/discordjs-activity
@@ -116,7 +113,7 @@ class DiscordMusicBot extends Client {
       {
         clientID: this.botconfig.Spotify.ClientID,
         clientSecret: this.botconfig.Spotify.ClientSecret,
-        playlistPageLoadLimit: 1,
+        playlistPageLoadLimit: 3,
         filterAudioOnlyResult: true,
         autoResolve: true,
         useSpotifyMetadata: true,
@@ -133,11 +130,6 @@ class DiscordMusicBot extends Client {
     );
 
     this.Manager = new Manager({
-      plugins: [
-        new deezer(),
-        new apple(),
-        new facebook(),
-      ],
       nodes: [
         {
           identifier: this.botconfig.Lavalink.id,
@@ -163,19 +155,19 @@ class DiscordMusicBot extends Client {
       .on("trackStart", async (player, track) => {
         this.SongsPlayed++;
         let TrackStartedEmbed = new MessageEmbed()
-          .setAuthor(`Now playing ♪`, this.botconfig.IconURL)
+          .setAuthor(`Đang phát ♪`, this.botconfig.IconURL)
           .setThumbnail(player.queue.current.displayThumbnail())
           .setDescription(`[${track.title}](${track.uri})`)
-          .addField("Requested by", `${track.requester}`, true)
+          .addField("Người chọn nhạc:", `${track.requester}`, true)
           .addField(
-            "Duration",
+            "Thời lượng:",
             `\`${prettyMilliseconds(track.duration, {
               colonNotation: true,
             })}\``,
             true
           )
           .setColor(this.botconfig.EmbedColor);
-        //.setFooter("Started playing at");
+        //.setFooter("Bài hát này được phát lúc ");
         let NowPlaying = await client.channels.cache
           .get(player.textChannel)
           .send(TrackStartedEmbed);
@@ -183,7 +175,7 @@ class DiscordMusicBot extends Client {
       })
       .on("queueEnd", (player) => {
         let QueueEmbed = new MessageEmbed()
-          .setAuthor("The queue has ended", this.botconfig.IconURL)
+          .setAuthor("Hàng đợi hiện trống.", this.botconfig.IconURL)
           .setColor(this.botconfig.EmbedColor)
           .setTimestamp();
         client.channels.cache.get(player.textChannel).send(QueueEmbed);
@@ -238,11 +230,11 @@ class DiscordMusicBot extends Client {
 
   sendError(Channel, Error) {
     let embed = new MessageEmbed()
-      .setTitle("An error occured")
+      .setTitle("Đã có lỗi!")
       .setColor("RED")
       .setDescription(Error)
       .setFooter(
-        "If you think this as a bug, please report it in the support server!"
+        "Lỗi rồi, nhắn tin Sena để hắn fix bug nhé mơn."
       );
 
     Channel.send(embed);

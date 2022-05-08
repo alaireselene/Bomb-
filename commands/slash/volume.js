@@ -3,11 +3,11 @@ const { MessageEmbed } = require("discord.js");
 
 const command = new SlashCommand()
   .setName("volume")
-  .setDescription("Change the volume of the current song.")
+  .setDescription("Điều khiển âm lượng hiên tại.")
   .addNumberOption((option) =>
     option
       .setName("amount")
-      .setDescription("Amount of volume you want to change. Ex: 10")
+      .setDescription("Nhập 1 số từ** \`1 - 100\`")
       .setRequired(false)
   )
   .setRun(async (client, interaction) => {
@@ -17,7 +17,7 @@ const command = new SlashCommand()
     if (!player) {
       const queueEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
-        .setDescription("❌ | **There's nothing playing in the queue**");
+        .setDescription("❌ | **Hàng đợi trống**");
       return interaction.reply({ embeds: [queueEmbed], ephemeral: true });
     }
 
@@ -25,7 +25,7 @@ const command = new SlashCommand()
       const joinEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | **You must be in a voice channel to use this command.**"
+          "❌ | **Vào 1 kênh voice để chạy lệnh!**"
         );
       return interaction.reply({ embeds: [joinEmbed], ephemeral: true });
     }
@@ -39,7 +39,7 @@ const command = new SlashCommand()
       const sameEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | **You must be in the same voice channel as me to use this command!**"
+          "❌ | **Vào cùng kênh voice với bot để chạy bot!**"
         );
       return interaction.reply({ embeds: [sameEmbed], ephemeral: true });
     }
@@ -48,7 +48,7 @@ const command = new SlashCommand()
     if (!vol || vol < 1 || vol > 125) {
       const NumberEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
-        .setDescription(`:loud_sound: | **Current volume ${player.volume}**`);
+        .setDescription(`:loud_sound: | **Âm lượng hiện tại: ${player.volume}**`);
       return interaction.reply({ embeds: [NumberEmbed] });
     }
 
@@ -58,7 +58,7 @@ const command = new SlashCommand()
         new MessageEmbed()
           .setColor(client.config.embedColor)
           .setDescription(
-            `:loud_sound: | Successfully set volume to **${player.volume}**`
+            `:loud_sound: | Đã chuyển âm lượng về **${player.volume}**`
           ),
       ],
     });

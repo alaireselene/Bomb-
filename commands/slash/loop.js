@@ -3,19 +3,19 @@ const { MessageEmbed } = require("discord.js");
 
 const command = new SlashCommand()
   .setName("loop")
-  .setDescription("Loop the current song")
+  .setDescription("Bật chế độ lặp lại cho bài hát hiện tại.")
   .setRun(async (client, interaction, options) => {
     let player = client.manager.players.get(interaction.guild.id);
     if (!player) {
       return interaction.reply({
-        embeds: [client.ErrorEmbed("❌ | **Nothing is playing right now...**")],
+        embeds: [client.ErrorEmbed("❌ | **Danh sách trống...**")],
       });
     }
     if (!interaction.member.voice.channel) {
       const joinEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | **You must be in a voice channel to use this command.**"
+          "❌ | **Vào cùng kênh voice với bot để chạy lệnh này!**"
         );
       return interaction.reply({ embeds: [joinEmbed], ephemeral: true });
     }
@@ -29,16 +29,16 @@ const command = new SlashCommand()
       const sameEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | **You must be in the same voice channel as me to use this command!**"
+          "❌ | **Vào cùng kênh voice với bot để chạy lệnh này!**"
         );
       return interaction.reply({ embeds: [sameEmbed], ephemeral: true });
     }
     if (player.setTrackRepeat(!player.trackRepeat));
-    const trackRepeat = player.trackRepeat ? "enabled" : "disabled";
+    const trackRepeat = player.trackRepeat ? "bật" : "tắt";
 
     let loopembed = new MessageEmbed()
       .setColor(client.config.embedColor)
-      .setDescription(`👍 | **Loop has been \`${trackRepeat}\`**`);
+      .setDescription(`👍 | **Chế độ lặp đã đuợc \`${trackRepeat}\`**`);
     interaction.reply({ embeds: [loopembed] });
   });
 

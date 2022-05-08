@@ -3,11 +3,11 @@ const SlashCommand = require("../../lib/SlashCommand");
 
 const command = new SlashCommand()
   .setName("filters")
-  .setDescription("add or remove filters")
+  .setDescription("Thêm hoặc sửa bộ lọc.")
   .addStringOption((option) =>
     option
-      .setName("preset")
-      .setDescription("the preset to add")
+      .setName(" Mẫu có sẵn:")
+      .setDescription("Mẫu tuỳ chỉnh để thêm")
       .setRequired(true)
       .addChoice("Nightcore", "nightcore")
       .addChoice("BassBoost", "bassboost")
@@ -17,9 +17,7 @@ const command = new SlashCommand()
       .addChoice("Treblebass", "treblebass")
       .addChoice("Eight Dimension", "eightD")
       .addChoice("Karaoke", "karaoke")
-      .addChoice("Vibrato", "vibrato")
-      .addChoice("Tremolo", "tremolo")
-      .addChoice("Reset", "off")
+      .addChoice("Làm mới", "off")
   )
 
   .setRun(async (client, interaction, options) => {
@@ -30,7 +28,7 @@ const command = new SlashCommand()
     if (!player) {
       const queueEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
-        .setDescription("❌ | There is no music playing in this guild!");
+        .setDescription("❌ | Server Discord này đang chưa có track nào trong hàng chờ!");
       return interaction.reply({ embeds: [queueEmbed], ephemeral: true });
     }
 
@@ -38,7 +36,7 @@ const command = new SlashCommand()
       const joinEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | You must be in a voice channel to use this command!"
+          "❌ | Bạn phải vào kênh thoại để dùng lệnh này!"
         );
       return interaction.reply({ embeds: [joinEmbed], ephemeral: true });
     }
@@ -52,7 +50,7 @@ const command = new SlashCommand()
       const sameEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | You must be in the same voice channel as the bot to use this command!"
+          "❌ | Vào cùng kênh voice với bot để chạy lệnh này!"
         );
       return interaction.reply({ embeds: [sameEmbed], ephemeral: true });
     }
@@ -61,40 +59,34 @@ const command = new SlashCommand()
     let thing = new MessageEmbed().setColor(client.config.embedColor);
 
     if (args == "nightcore") {
-      thing.setDescription("✅ | Nightcore filter is now active!");
+      thing.setDescription("✅ | Nightcore đã đuợc kích hoạt!");
       player.nightcore = true;
     } else if (args == "bassboost") {
-      thing.setDescription("✅ | BassBoost filter is now on!");
+      thing.setDescription("✅ | BassBoost đã đuợc bật!");
       player.bassboost = true;
     } else if (args == "vaporwave") {
-      thing.setDescription("✅ | Vaporwave filter is now on!");
+      thing.setDescription("✅ | Vaporwave đã đuợc bật!");
       player.vaporwave = true;
     } else if (args == "pop") {
-      thing.setDescription("✅ | Pop filter is now on!");
+      thing.setDescription("✅ | Pop đã đuợc bật!");
       player.pop = true;
     } else if (args == "soft") {
-      thing.setDescription("✅ | Soft filter is now on!");
+      thing.setDescription("✅ | Soft đã đuợc bật!");
       player.soft = true;
     } else if (args == "treblebass") {
-      thing.setDescription("✅ | Treblebass filter is now on!");
+      thing.setDescription("✅ | Treblebass đã đuợc bật!");
       player.treblebass = true;
     } else if (args == "eightD") {
-      thing.setDescription("✅ | Eight Dimension filter is now on!");
+      thing.setDescription("✅ | Eight Dimension đã đuợc bật!");
       player.eightD = true;
     } else if (args == "karaoke") {
-      thing.setDescription("✅ | Karaoke filter is now on!");
+      thing.setDescription("✅ | Karaoke đã đuợc bật!");
       player.karaoke = true;
-    } else if (args == "vibrato") {
-      thing.setDescription("✅ | Vibrato filter is now on!");
-      player.vibrato = true;
-    } else if (args == "tremolo") {
-      thing.setDescription("✅ | Tremolo filter is now on!");
-      player.tremolo = true;
     } else if (args == "off") {
-      thing.setDescription("✅ | EQ has been cleared!");
+      thing.setDescription("✅ | EQ đã đuợc xoá bỏ!");
       player.reset();
     } else {
-      thing.setDescription("❌ | Invalid filter!");
+      thing.setDescription("❌ | Bộ lọc không hợp lệ!");
     }
 
     return interaction.reply({ embeds: [thing] });

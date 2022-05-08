@@ -2,7 +2,7 @@ const SlashCommand = require("../../lib/SlashCommand");
 
 const command = new SlashCommand()
   .setName("summon")
-  .setDescription("Summons the bot to the channel.")
+  .setDescription("Triệu hồi Bomb! khuấy động kênh thoại.")
   .setRun(async (client, interaction, options) => {
     let channel = await client.getChannel(client, interaction);
     let node = await client.getLavalink(client);
@@ -10,7 +10,7 @@ const command = new SlashCommand()
       const joinEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | **You must be in a voice channel to use this command.**"
+          "❌ | **Vào cùng kênh voice với bot để chạy lệnh này!**"
         );
       return interaction.reply({ embeds: [joinEmbed], ephemeral: true });
     }
@@ -28,7 +28,7 @@ const command = new SlashCommand()
 
     interaction.reply({
       embeds: [
-        client.Embed(`:thumbsup: | **Successfully joined <#${channel.id}>!**`),
+        client.Embed(`:thumbsup: | **Đã nhập bọn vào kênh <#${channel.id}>!**`),
       ],
     });
   });

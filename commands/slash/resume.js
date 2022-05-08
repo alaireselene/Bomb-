@@ -3,13 +3,13 @@ const { MessageEmbed } = require("discord.js");
 
 const command = new SlashCommand()
   .setName("resume")
-  .setDescription("Resume current playing track")
+  .setDescription("Tiếp tục bài hát còn dang dở.")
   .setRun(async (client, interaction, options) => {
     let player = client.manager.players.get(interaction.guild.id);
     if (!player) {
       const queueEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
-        .setDescription("❌ | Nothing is playing right now...");
+        .setDescription("❌ | Hàng chờ hiện trống...");
       return interaction.reply({ embeds: [queueEmbed], ephemeral: true });
     }
 
@@ -17,7 +17,7 @@ const command = new SlashCommand()
       const joinEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | **You must be in the same voice channel as me to use this command!**"
+          "❌ | **Vào cùng kênh voice với bot để chạy lệnh này!**"
         );
       return interaction.reply({ embeds: [joinEmbed], ephemeral: true });
     }
@@ -31,7 +31,7 @@ const command = new SlashCommand()
       const sameEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | **You must be in the same voice channel as me to use this command!**"
+          "❌ | **Vào cùng kênh voice với bot để chạy lệnh này!**"
         );
       return interaction.reply({ embeds: [sameEmbed], ephemeral: true });
     }
@@ -39,13 +39,13 @@ const command = new SlashCommand()
     if (!player.paused) {
       let ResumedEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
-        .setDescription("❌ | **Current track is already resumed**");
+        .setDescription("❌ | **Track đang phát đã đuợc phát tiếp, vui lòng không thực hiện thao tác thừa!**");
       return interaction.reply({ embeds: [ResumedEmbed], ephemeral: true });
     }
     player.pause(false);
     let ResEmbed = new MessageEmbed()
       .setColor(client.config.embedColor)
-      .setDescription(`⏯ **Resumed!**`);
+      .setDescription(`⏯ **Đã tiếp tục!**`);
     return interaction.reply({ embeds: [ResEmbed] });
   });
 

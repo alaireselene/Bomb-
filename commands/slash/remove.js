@@ -3,11 +3,11 @@ const { MessageEmbed } = require("discord.js");
 
 const command = new SlashCommand()
   .setName("remove")
-  .setDescription("Remove track you don't want from queue")
+  .setDescription("Xoá một bài hát khỏi hàng chờ.")
   .addNumberOption((option) =>
     option
       .setName("number")
-      .setDescription("Enter track number.")
+      .setDescription("Nhập số thứ tự của track.")
       .setRequired(true)
   )
 
@@ -18,7 +18,7 @@ const command = new SlashCommand()
     if (!player) {
       const queueEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
-        .setDescription("There's nothing playing in the queue");
+        .setDescription("Hàng đợi trống");
       return interaction.reply({ embeds: [queueEmbed], ephemeral: true });
     }
 
@@ -26,7 +26,7 @@ const command = new SlashCommand()
       const joinEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "You have to join voice channel first before you can use this command"
+          "Vào 1 kênh Voice để chạy bot!"
         );
       return interaction.reply({ embeds: [joinEmbed], ephemeral: true });
     }
@@ -40,7 +40,7 @@ const command = new SlashCommand()
       const sameEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "You must be in the same voice channel as me first before you can use this command"
+          "Vào cùng kênh voice với bot để chạy lệnh này!"
         );
       return interaction.reply({ embeds: [sameEmbed], ephemeral: true });
     }
@@ -52,7 +52,7 @@ const command = new SlashCommand()
       let thing = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          `Current queue has only **${player.queue.size}** track`
+          `Hàng chờ hiện chỉ còn **${player.queue.size}** track.`
         );
       return interaction.editReply({ embeds: [thing] });
     }
@@ -63,7 +63,7 @@ const command = new SlashCommand()
     const number = position + 1;
     let thing = new MessageEmbed()
       .setColor(client.config.embedColor)
-      .setDescription(`Removed track number **${number}** from queue`);
+      .setDescription(`Đã xoá **${number}** khỏi hàng chờ.`);
     return interaction.editReply({ embeds: [thing] });
   });
 

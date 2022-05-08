@@ -5,19 +5,19 @@ const fetch = require("node-fetch");
 
 const command = new SlashCommand()
   .setName("lyrics")
-  .setDescription("Shows lyrics of a song")
+  .setDescription("Hiện lời của bài hát.")
   // get user input
   .addStringOption((option) =>
     option
       .setName("song")
-      .setDescription("The song to get lyrics for")
+      .setDescription("Track nhạc bạn muốn tìm lời")
       .setRequired(false)
   )
   .setRun(async (client, interaction, options) => {
 	await interaction.deferReply().catch((_) => {});
 	
 	await interaction.editReply({
-		embeds: [client.Embed(":mag_right: **Searching...**")],
+		embeds: [client.Embed(":mag_right: **Đang tìm...**")],
 	});
 	
 	const args = interaction.options.getString("song");
@@ -26,7 +26,7 @@ const command = new SlashCommand()
 	
 	if (!args && !player)
 	return interaction.editReply({
-		embeds: [client.ErrorEmbed("❌ | **There's nothing playing**")],
+		embeds: [client.ErrorEmbed("❌ | **Hàng chờ trống**")],
 	});
 	
 	// if no input, search for the current song. if no song console.log("No song input");
@@ -41,7 +41,7 @@ const command = new SlashCommand()
 	if (lyrics.response !== 200) {
 		let failEmbed = new MessageEmbed()
 		.setColor("RED")
-		.setDescription(`❌ | No lyrics found for ${search}! Please try again.`);
+		.setDescription(`❌ | Không thấy lời của track __${search}__! Vui lòng thử lại sau.`);
 		return interaction.editReply({ embeds: [failEmbed] });
 	}
 	

@@ -5,7 +5,7 @@ const path = require("path");
 
 const command = new SlashCommand()
   .setName("reload")
-  .setDescription("Reload all commands")
+  .setDescription("Tải lại toàn bộ lệnh.")
   .setRun(async (client, interaction, options) => {
     if (interaction.user.id === client.config.adminId) {
       try {
@@ -18,9 +18,9 @@ const command = new SlashCommand()
             let cmd = require(ContextCommandsDirectory + "/" + file);
             if (!cmd.command || !cmd.run)
               return this.warn(
-                "❌ Unable to load Command: " +
+                "❌ Không thể tải lệnh: " +
                   file.split(".")[0] +
-                  ", File doesn't have either command/run"
+                  ", Tập tin không có lệnh."
               );
             client.contextCommands.set(file.split(".")[0].toLowerCase(), cmd);
           });
@@ -36,9 +36,9 @@ const command = new SlashCommand()
 
             if (!cmd || !cmd.run)
               return this.warn(
-                "❌ Unable to load Command: " +
+                "❌ Không thể tải lệnh: " +
                   file.split(".")[0] +
-                  ", File doesn't have an valid command with run function"
+                  ", Tập tin chứa lệnh không hợp lệ/không chạy đuợc."
               );
             client.slashCommands.set(file.split(".")[0].toLowerCase(), cmd);
           });
@@ -46,13 +46,13 @@ const command = new SlashCommand()
 
         const totalCmds =
           client.slashCommands.size + client.contextCommands.size;
-        client.log(`Reloaded ${totalCmds} commands!`);
+        client.log(`Đã tải lại ${totalCmds} lệnh!`);
         return interaction.reply({
           embeds: [
             new MessageEmbed()
               .setColor(client.config.embedColor)
-              .setDescription(`Sucessfully Reloaded \`${totalCmds}\` Commands!`)
-              .setFooter({text: `${client.user.username} was reloaded by ${interaction.user.username}`})
+              .setDescription(`Tải thành công \`${totalCmds}\` lệnh!`)
+              .setFooter({text: `${client.user.username} đã bị tẩy não bởi ${interaction.user.username}`})
               .setTimestamp(),
           ], ephemeral: true
         });
@@ -63,7 +63,7 @@ const command = new SlashCommand()
             new MessageEmbed()
               .setColor(client.config.embedColor)
               .setDescription(
-                "An error has occured. For more details please check console."
+                "Lỗi bất ngờ xuất hiện. Nhắc Sena kiểm tra VPS để xem chi tiết."
               ),
           ], ephemeral: true
         });
@@ -73,7 +73,7 @@ const command = new SlashCommand()
         embeds: [
           new MessageEmbed()
             .setColor(client.config.embedColor)
-            .setDescription("You are not authorized to use this command!"),
+            .setDescription("Bạn không đuợc ủy quyền để dùng lệnh này!"),
         ], ephemeral: true
       });
     }

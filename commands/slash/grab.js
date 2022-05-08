@@ -4,13 +4,13 @@ const prettyMilliseconds = require("pretty-ms");
 
 const command = new SlashCommand()
   .setName("grab")
-  .setDescription("Saves current song to your DM's")
+  .setDescription("Lưu lại bài hát trong Inbox Discord.")
   .setRun(async (client, interaction) => {
     let player = client.manager.players.get(interaction.guild.id);
     if (!player) {
       const queueEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
-        .setDescription(":x: | **There's nothing playing**");
+        .setDescription("❌ | **Hàng chờ trống**");
       return interaction.reply({ embeds: [queueEmbed], ephemeral: true });
     }
 
@@ -18,7 +18,7 @@ const command = new SlashCommand()
       const joinEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          ":x: | **You must be in a voice channel to use this command!**"
+          "❌ | **Bạn phải vào kênh thoại để dùng lệnh này!**"
         );
       return interaction.reply({ embeds: [joinEmbed], ephemeral: true });
     }
@@ -32,7 +32,7 @@ const command = new SlashCommand()
       const sameEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          ":x: | **You must be in the same voice channel as me to use this command!**"
+          "❌ | **Vào cùng kênh voice với bot để chạy lệnh này!**"
         );
       return interaction.reply({ embeds: [sameEmbed], ephemeral: true });
     }
@@ -40,27 +40,27 @@ const command = new SlashCommand()
     const save = new MessageEmbed()
       .setColor(client.config.embedColor)
       .setAuthor({
-        name: "Saved track",
+        name: "Mình đã lưu lại bài này cho bạn rồi nè ~",
         iconURL: `${interaction.user.displayAvatarURL({ dynamic: true })}`,
       })
       .setDescription(
-        `**Saved [${player.queue.current.title}](${player.queue.current.uri}) to your DM**`
+        `**Tên bài hát là [${player.queue.current.title}](${player.queue.current.uri})**`
       )
       .addFields(
         {
-          name: "Track Duration",
+          name: "⌛ Thời lượng:",
           value: `\`${prettyMilliseconds(player.queue.current.duration, {
             colonNotation: true,
           })}\``,
           inline: true,
         },
         {
-          name: "Track Author",
+          name: "🎵 Từ kênh:",
           value: `\`${player.queue.current.author}\``,
           inline: true,
         },
         {
-          name: "Requested Guild",
+          name: "🔎 Bài hát được tìm thấy ở:",
           value: `\`${interaction.guild}\``,
           inline: true,
         }
@@ -73,7 +73,7 @@ const command = new SlashCommand()
         new MessageEmbed()
           .setColor(client.config.embedColor)
           .setDescription(
-            "Please check your **DM**. If you don't receive any message from me please make sure your **DM** is open"
+            "✅ | **Kiểm tra DMs nhé! **"
           ),
       ],
       ephemeral: true,

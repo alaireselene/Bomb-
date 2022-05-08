@@ -3,19 +3,19 @@ const { MessageEmbed } = require("discord.js");
 
 const command = new SlashCommand()
   .setName("loopqueue")
-  .setDescription("Loop the queue")
+  .setDescription("Bật chế độ lặp lại hàng chờ")
   .setRun(async (client, interaction, options) => {
     let player = client.manager.players.get(interaction.guild.id);
     if (!player) {
       return interaction.reply({
-        embeds: [client.ErrorEmbed("There is no music playing")],
+        embeds: [client.ErrorEmbed("Hàng chờ trống.")],
       });
     }
     if (!interaction.member.voice.channel) {
       const joinEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | **You need to join voice channel first before you can use this command.**"
+          "❌ | **Vào 1 kênh Voice để chạy bot!**"
         );
       return interaction.reply({ embeds: [joinEmbed], ephemeral: true });
     }
@@ -29,16 +29,16 @@ const command = new SlashCommand()
       const sameEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | **You must be in the same voice channel as me.**"
+          "❌ | **Vào cùng kênh voice với bot để chạy lệnh này!**"
         );
       return interaction.reply({ embeds: [sameEmbed], ephemeral: true });
     }
     if (player.setQueueRepeat(!player.queueRepeat));
-    const queueRepeat = player.queueRepeat ? "enabled" : "disabled";
+    const queueRepeat = player.queueRepeat ? "bật" : "tắt";
 
     let loopembed = new MessageEmbed()
       .setColor(client.config.embedColor)
-      .setDescription(`:thumbsup: | **Loop queue is now \`${queueRepeat}\`**`);
+      .setDescription(`:thumbsup: | **Chế độ lặp hàng chờ đã đuợc \`${queueRepeat}\`**`);
     interaction.reply({ embeds: [loopembed] });
   });
 

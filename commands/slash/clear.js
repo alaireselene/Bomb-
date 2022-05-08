@@ -3,13 +3,13 @@ const { MessageEmbed } = require("discord.js");
 
 const command = new SlashCommand()
   .setName("clear")
-  .setDescription("Clear all tracks from queue")
+  .setDescription("Xóa trống hàng chờ.")
   .setRun(async (client, interaction, options) => {
     let player = client.manager.players.get(interaction.guild.id);
     if (!player) {
       const queueEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
-        .setDescription("❌ | **Nothing is playing right now...**");
+        .setDescription("❌ | **Danh sách trống...**");
       return interaction.reply({ embeds: [queueEmbed], ephemeral: true });
     }
 
@@ -17,7 +17,7 @@ const command = new SlashCommand()
       const joinEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | **You must be in a voice channel to use this command!**"
+          "❌ | **Vào 1 kênh Voice để chạy bot!**"
         );
       return interaction.reply({ embeds: [joinEmbed], ephemeral: true });
     }
@@ -31,7 +31,7 @@ const command = new SlashCommand()
       const sameEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | **You must be in the same voice channel as me to use this command!**"
+          "❌ | **Vào cùng kênh voice với bot để chạy lệnh này!**"
         );
       return interaction.reply({ embeds: [sameEmbed], ephemeral: true });
     }
@@ -39,7 +39,7 @@ const command = new SlashCommand()
     if (!player.queue || !player.queue.length || player.queue.length === 0) {
       let cembed = new MessageEmbed()
         .setColor(client.config.embedColor)
-        .setDescription("❌ | **Invalid, Not enough track to be cleared.**");
+        .setDescription("❌ | **Không đủ track để xoá.**");
 
       return interaction.reply({ embeds: [cembed], ephemeral: true });
     }
@@ -48,7 +48,7 @@ const command = new SlashCommand()
 
     let clearembed = new MessageEmbed()
       .setColor(client.config.embedColor)
-      .setDescription(`✅ | **Cleared the queue!**`);
+      .setDescription(`✅ | **Đã xoá hàng chờ!**`);
 
     return interaction.reply({ embeds: [clearembed] });
   });

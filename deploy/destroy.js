@@ -15,9 +15,9 @@ const rl = readline.createInterface({
   const rest = new REST({ version: "9" }).setToken(config.token);
 
   rl.question(
-    "Enter the guild id you wanted to delete commands: ",
+    "Nhập GuildID muốn xoá lệnh: ",
     async (guild) => {
-      console.log("Evil bot has been started to delete commands...");
+      console.log("Lực luợng ta zam đang đi xoá lệnh.");
       let commands = await rest.get(
         Routes.applicationGuildCommands(config.clientId, guild)
       );
@@ -28,10 +28,10 @@ const rl = readline.createInterface({
             Routes.applicationGuildCommand(config.clientId, guild, cmd.id)
           )
           .catch(console.log);
-        console.log("Deleted command: " + cmd.name);
+        console.log("Đã xoá lệnh: " + cmd.name);
       }
       if (commands.length === 0)
-        console.log("Evil bot doesn't seen any commands to delete :c");
+        console.log("Quỷ ta zam không tìm thấy lệnh xD");
       rl.close();
     }
   );

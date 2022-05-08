@@ -3,13 +3,13 @@ const { MessageEmbed } = require("discord.js");
 
 const command = new SlashCommand()
   .setName("shuffle")
-  .setDescription("Shuffle the current queue.")
+  .setDescription("Xáo hàng chờ.")
   .setRun(async (client, interaction, options) => {
     let player = client.manager.players.get(interaction.guild.id);
     if (!player) {
       const queueEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
-        .setDescription("❌ | **There's nothing playing in the queue**");
+        .setDescription("❌ | **Hàng chờ trống**");
       return interaction.reply({ embeds: [queueEmbed], ephemeral: true });
     }
 
@@ -17,7 +17,7 @@ const command = new SlashCommand()
       const joinEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | **You must be in a voice channel to use this command.**"
+          "❌ | **Vào cùng kênh voice với bot để chạy lệnh này!**"
         );
       return interaction.reply({ embeds: [joinEmbed], ephemeral: true });
     }
@@ -31,7 +31,7 @@ const command = new SlashCommand()
       const sameEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | **You must be in the same voice channel as me to use this command!**"
+          "❌ | **Vào cùng kênh voice với bot để chạy lệnh này!**"
         );
       return interaction.reply({ embeds: [sameEmbed], ephemeral: true });
     }
@@ -39,7 +39,7 @@ const command = new SlashCommand()
     if (!player.queue || !player.queue.length || player.queue.length === 0) {
       const addEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
-        .setDescription("❌ | **There are no songs in the queue.**");
+        .setDescription("❌ | **Hàng chờ hiện trống.**");
       return interaction.reply({ embeds: [addEmbed], ephemeral: true });
     }
 
@@ -47,7 +47,7 @@ const command = new SlashCommand()
     player.queue.shuffle();
     const shuffleEmbed = new MessageEmbed()
       .setColor(client.config.embedColor)
-      .setDescription("🔀 | **Successfully shuffled the queue.**");
+      .setDescription("🔀 | **Đã xáo xong hàng chờ.**");
     return interaction.reply({ embeds: [shuffleEmbed] });
   });
 

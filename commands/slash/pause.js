@@ -3,13 +3,13 @@ const { MessageEmbed } = require("discord.js");
 
 const command = new SlashCommand()
   .setName("pause")
-  .setDescription("Pause current playing track")
+  .setDescription("Tạm dừng bài hát hiện tại.")
   .setRun(async (client, interaction, options) => {
     let player = client.manager.players.get(interaction.guild.id);
     if (!player) {
       const queueEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
-        .setDescription("❌ | **Nothing is playing right now...**");
+        .setDescription("❌ | **Danh sách trống...**");
       return interaction.reply({ embeds: [queueEmbed], ephemeral: true });
     }
 
@@ -17,7 +17,7 @@ const command = new SlashCommand()
       const joinEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | **You must be in a voice channel to use this command!**"
+          "❌ | **Vào 1 kênh Voice để chạy bot!**"
         );
       return interaction.reply({ embeds: [joinEmbed], ephemeral: true });
     }
@@ -31,7 +31,7 @@ const command = new SlashCommand()
       const sameEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | **You must be in the same voice channel as me to use this command!**"
+          "❌ | **Vào cùng kênh voice với bot để chạy lệnh này!**"
         );
       return interaction.reply({ embeds: [sameEmbed], ephemeral: true });
     }
@@ -39,7 +39,7 @@ const command = new SlashCommand()
     if (player.paused) {
       let pembed = new MessageEmbed()
         .setColor(client.config.embedColor)
-        .setDescription("❌ | **Current playing track is already paused!**");
+        .setDescription("❌ | **Track đang phát đang ở trạng thái dừng, vui lòng không thực hiện thao tác thừa!**");
       return interaction.reply({ embeds: [pembed], ephemeral: true });
     }
 
@@ -47,7 +47,7 @@ const command = new SlashCommand()
 
     let pauseembed = new MessageEmbed()
       .setColor(client.config.embedColor)
-      .setDescription(`⏸ **Paused!**`);
+      .setDescription(`⏸ **Đã dừng!**`);
     return interaction.reply({ embeds: [pauseembed] });
   });
 

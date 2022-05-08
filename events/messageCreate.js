@@ -7,7 +7,7 @@ module.exports = async (client, message) => {
     const mentionEmbed = new MessageEmbed()
       .setColor(client.config.embedColor)
       .setDescription(
-        `My prefix on this server is \`/\` (Slash Command).\nTo get started you can type \`/help\` to see all my commands.\nIf you can't see it, Please [reinvite](https://discord.com/oauth2/authorize?client_id=${client.config.clientId}&permissions=${client.config.permissions}&scope=bot%20applications.commands) me with the correct permissions.`
+        `Tiền tố lệnh trong máy chủ này là \`/\` (Slash Command).\nĐể bắt đầu vui lòng nhập \`/help\` để xem toàn bộ lệnh có sẵn.\nNếu không thấy, vui lòng thay mắt mới hoặc [mời lại bot](https://discord.com/oauth2/authorize?client_id=${client.config.clientId}&permissions=${client.config.permissions}&scope=bot%20applications.commands) với đủ quyền cần thiết.`
       );
 
     message.channel.send({

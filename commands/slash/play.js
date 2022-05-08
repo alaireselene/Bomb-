@@ -3,11 +3,11 @@ const SlashCommand = require("../../lib/SlashCommand");
 
 const command = new SlashCommand()
   .setName("play")
-  .setDescription("Play music in the voice channel")
+  .setDescription("Bật bài hát yêu thích của bạn, hoặc không yêu thích, gì đó abcdef.")
   .addStringOption((option) =>
     option
       .setName("query")
-      .setDescription("Search string to search the music")
+      .setDescription("Nhập tên bài hát/link nhạc muốn phát:")
       .setRequired(true)
   )
   .setRun(async (client, interaction, options) => {
@@ -17,7 +17,7 @@ const command = new SlashCommand()
     let node = await client.getLavalink(client);
     if (!node) {
       return interaction.reply({
-        embeds: [client.ErrorEmbed("Lavalink node is not connected")],
+        embeds: [client.ErrorEmbed("Lavalink đã xịt, vui lòng DMs Sena để xử lý!")],
       });
     }
     let query = options.getString("query", true);
@@ -26,7 +26,7 @@ const command = new SlashCommand()
       const joinEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | **You must be in a voice channel to use this command.**"
+          "❌ | **Vào cùng kênh voice với bot để chạy lệnh này!**"
         );
       return interaction.reply({ embeds: [joinEmbed], ephemeral: true });
     }
@@ -48,7 +48,7 @@ const command = new SlashCommand()
     }
 
     await interaction.reply({
-      embeds: [client.Embed(":mag_right: **Searching...**")],
+      embeds: [client.Embed(":mag_right: **Đang tìm...**")],
     });
 
     let res = await player.search(query, interaction.user).catch((err) => {
@@ -62,7 +62,7 @@ const command = new SlashCommand()
       if (!player.queue.current) player.destroy();
       return interaction
         .editReply({
-          embeds: [client.ErrorEmbed("There was an error while searching")],
+          embeds: [client.ErrorEmbed("Trong quá trình tìm kiếm, Bomb! đã làm vỡ kính lúp. Vui lòng thử lại hoặc DMs Sena.")],
         })
         .catch(this.warn);
     }
@@ -71,7 +71,7 @@ const command = new SlashCommand()
       if (!player.queue.current) player.destroy();
       return interaction
         .editReply({
-          embeds: [client.ErrorEmbed("No results were found")],
+          embeds: [client.ErrorEmbed("Không có kết quả.")],
         })
         .catch(this.warn);
     }
@@ -82,17 +82,17 @@ const command = new SlashCommand()
         player.play();
       let addQueueEmbed = client
         .Embed()
-        .setAuthor({ name: "Added to queue", iconURL: client.config.iconURL })
+        .setAuthor({ name: "♪ Đã thêm track sau vào hàng chờ:", iconURL: client.config.iconURL })
         //.setAuthor("Added to queue", client.config.iconURL) Deprecated soon
         .setDescription(
-          `[${res.tracks[0].title}](${res.tracks[0].uri})` || "No Title"
+          `[${res.tracks[0].title}](${res.tracks[0].uri})` || "Vô danh"
         )
         .setURL(res.tracks[0].uri)
-        .addField("Author", res.tracks[0].author, true)
+        .addField("Từ kênh/tác giả:", res.tracks[0].author, true)
         .addField(
-          "Duration",
+          "⌛ Thời lượng:",
           res.tracks[0].isStream
-            ? `\`LIVE\``
+            ? `\`TRỰC TIẾP\``
             : `\`${client.ms(res.tracks[0].duration, {
                 colonNotation: true,
               })}\``,
@@ -107,8 +107,9 @@ const command = new SlashCommand()
       }
       if (player.queue.totalSize > 1)
         addQueueEmbed.addField(
-          "Position in queue",
+          "Bài hát đứng số ",
           `${player.queue.size - 0}`,
+          "trong hàng chờ",
           true
         );
       return interaction
@@ -127,15 +128,15 @@ const command = new SlashCommand()
       let playlistEmbed = client
         .Embed()
         .setAuthor({
-          name: "Playlist added to queue",
+          name: "Đã thêm Playlist sau vào hàng chờ:",
           iconURL: client.config.iconURL,
         })
         //.setAuthor("Playlist added to queue", client.config.iconURL)
         .setThumbnail(res.tracks[0].thumbnail)
         .setDescription(`[${res.playlist.name}](${query})`)
-        .addField("Enqueued", `\`${res.tracks.length}\` songs`, false)
+        .addField("Đã thêm vào ", `\`${res.tracks.length}\` bài hát.`, false)
         .addField(
-          "Playlist duration",
+          "⌛ Thời lượng:",
           `\`${client.ms(res.playlist.duration, {
             colonNotation: true,
           })}\``,

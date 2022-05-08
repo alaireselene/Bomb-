@@ -52,8 +52,8 @@ module.exports = async (client, oldState, newState) => {
           let playerResumed = client
             .Embed()
             // say that the queue has been resumed
-            .setTitle(`Resumed!`, client.config.iconURL)
-            .setFooter({ text: `The current song has been resumed.` });
+            .setTitle(`Đã tiếp tục!`, client.config.iconURL)
+            .setFooter({ text: `Đang phát tiếp bài hát hiện tại.` });
           await client.channels.cache
             .get(player.textChannel)
             .send({ embeds: [playerResumed] });
@@ -82,9 +82,9 @@ module.exports = async (client, oldState, newState) => {
 
           let playerPaused = client
             .Embed()
-            .setTitle(`Paused!`, client.config.iconURL)
+            .setTitle(`Đã tạm dừng!`, client.config.iconURL)
             .setFooter({
-              text: `The current song has been paused because theres no one in the voice channel.`,
+              text: `Kênh vắng, bot chán liền bỏ ngang.`,
             });
           await client.channels.cache
             .get(player.textChannel)

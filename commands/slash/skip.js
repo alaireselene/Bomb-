@@ -2,21 +2,21 @@ const SlashCommand = require("../../lib/SlashCommand");
 
 const command = new SlashCommand()
   .setName("skip")
-  .setDescription("Skip the current song")
+  .setDescription("Nhảy sang track tiếp theo.")
   .setRun(async (client, interaction, options) => {
     let channel = await client.getChannel(client, interaction);
     if (!channel) return;
     let player = client.manager.players.get(interaction.guild.id);
     if (!player)
       return interaction.reply({
-        embeds: [client.ErrorEmbed("There's nothing to skipped!")],
+        embeds: [client.ErrorEmbed("Không có track thì sao nhảy đuợc track bạn ơi?")],
       });
 
     if (!interaction.member.voice.channel) {
       const joinEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | **You must be in a voice channel to use this command!**"
+          "❌ | **Vào 1 kênh Voice để chạy bot!**"
         );
       return interaction.reply({ embeds: [joinEmbed], ephemeral: true });
     }
@@ -30,12 +30,12 @@ const command = new SlashCommand()
       const sameEmbed = new MessageEmbed()
         .setColor(client.config.embedColor)
         .setDescription(
-          "❌ | **You must be in the same voice channel as me to use this command!**"
+          "❌ | **Vào cùng kênh voice với bot để chạy lệnh này!**"
         );
       return interaction.reply({ embeds: [sameEmbed], ephemeral: true });
     }
     player.stop();
-    interaction.reply({ embeds: [client.Embed("✅ | **Skipped!**")] });
+    interaction.reply({ embeds: [client.Embed("✅ | **Đã nhảy sang track tiếp theo!**")] });
   });
 
 module.exports = command;

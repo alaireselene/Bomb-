@@ -6,7 +6,7 @@ const os = require("os");
 
 const command = new SlashCommand()
   .setName("stats")
-  .setDescription("Get information about the bot")
+  .setDescription("Cập nhật thông tin bot từ máy chủ")
   .setRun(async (client, interaction) => {
     // get OS info
     const osver = os.platform() + " " + os.release();
@@ -17,11 +17,11 @@ const command = new SlashCommand()
     // get the uptime in a human readable format
     const runtime = moment
       .duration(client.uptime)
-      .format("d[ Days]・h[ Hrs]・m[ Mins]・s[ Secs]");
+      .format("d[ Ngày]・h[ Tiếng]・m[ Phút]・s[ Giây]");
     // show lavalink uptime in a nice format
     const lavauptime = moment
       .duration(client.manager.nodes.values().next().value.stats.uptime)
-      .format(" D[d], H[h], m[m]");
+      .format(" D[ng], H[h], m[p]");
     // show lavalink memory usage in a nice format
     const lavaram = (
       client.manager.nodes.values().next().value.stats.memory.used /
@@ -37,7 +37,7 @@ const command = new SlashCommand()
     // show system uptime
     var sysuptime = moment
       .duration(os.uptime() * 1000)
-      .format("d[ Days]・h[ Hrs]・m[ Mins]・s[ Secs]");
+      .format("d[ Ngày]・h[ Tiếng]・m[ Phút]・s[ Giây]");
 
     // get commit hash and date
     let gitHash = "unknown";
@@ -52,24 +52,24 @@ const command = new SlashCommand()
     }
 
     const statsEmbed = new MessageEmbed()
-      .setTitle(`${client.user.username} Information`)
+      .setTitle(`Thông tin về ${client.user.username}`)
       .setColor(client.config.embedColor)
       .setDescription(
-        `\`\`\`yml\nName: ${client.user.username}#${client.user.discriminator} [${client.user.id}]\nAPI: ${client.ws.ping}ms\nRuntime: ${runtime}\`\`\``
+        `\`\`\`yml\nTên: ${client.user.username}#${client.user.discriminator} [${client.user.id}]\nAPI: ${client.ws.ping}ms\nRuntime: ${runtime}\`\`\``
       )
       .setFields([
         {
-          name: `Lavalink stats`,
-          value: `\`\`\`yml\nUptime: ${lavauptime}\nRAM: ${lavaram} MB\nPlaying: ${
+          name: `Trạng thái Lavalink`,
+          value: `\`\`\`yml\nUptime: ${lavauptime}\nRAM: ${lavaram} MB\nĐang phát: ${
             client.manager.nodes.values().next().value.stats.playingPlayers
-          } out of ${
+          } trên ${
             client.manager.nodes.values().next().value.stats.players
           }\`\`\``,
           inline: true,
         },
         {
-          name: "Bot stats",
-          value: `\`\`\`yml\nGuilds: ${
+          name: "Trạng thái bot",
+          value: `\`\`\`yml\nDiscord Server: ${
             client.guilds.cache.size
           } \nNodeJS: ${nodeVersion}\nDiscordMusicBot: v${
             require("../../package.json").version
@@ -77,7 +77,7 @@ const command = new SlashCommand()
           inline: true,
         },
         {
-          name: "System stats",
+          name: "Trạng thái hệ thống BKNS",
           value: `\`\`\`yml\nOS: ${osver}\nUptime: ${sysuptime}\n\`\`\``,
           inline: false,
         },

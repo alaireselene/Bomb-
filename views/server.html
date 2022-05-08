@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Quản lý máy chủ</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+    <!-- Favicons -->
+    <link href="/img/favicon.png" rel="icon" />
+    <link href="/img/apple-touch-icon.png" rel="apple-touch-icon" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+    <!-- Vendor CSS Files -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+    <link href="/vendor/simple-datatables/style.css" rel="stylesheet" />
+    <!-- Template Main CSS File -->
+    <link href="/css/dashboard.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
+      <div class="d-flex align-items-center justify-content-between">
+        <a href="/" class="logo d-flex align-items-center">
+          <img src="/img/logo.png" alt="" />
+          <span class="d-none d-lg-block">Bomb! Bot</span>
+        </a>
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+      </div>
+      <!-- End Logo -->
+      <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+          <li class="nav-item d-block d-lg-none">
+            <a class="nav-link nav-icon search-bar-toggle" href="#">
+              <i class="bi bi-search"></i>
+            </a>
+          </li>
+          <!-- End Search Icon-->
+          <li class="nav-item dropdown pe-3">
+            <a
+              class="nav-link nav-profile d-flex align-items-center pe-0"
+              href="#"
+              data-bs-toggle="dropdown"
+              id="pfpinfo"
+            >
+            </a>
+            <!-- End Profile Iamge Icon -->
+            <ul
+              class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile"
+            >
+              <li>
+                <a
+                  class="dropdown-item d-flex align-items-center"
+                  href="/dashboard"
+                >
+                  <i class="bi bi-gear"></i>
+                  <span>Trang quản lý</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a
+                  class="dropdown-item d-flex align-items-center"
+                  href="/logout"
+                >
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Đăng xuất</span>
+                </a>
+              </li>
+            </ul>
+            <!-- End Profile Dropdown Items -->
+          </li>
+          <!-- End Profile Nav -->
+        </ul>
+      </nav>
+      <!-- End Icons Navigation -->
+    </header>
+    <!-- End Header -->
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+      <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/dashboard">
+            <i class="bi bi-grid"></i>
+            <span>Về trang quản lý</span>
+          </a>
+        </li>
+        <!-- End Dashboard Nav -->
+        <li class="nav-heading">Tiện ích</li>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="/user">
+            <i class="bi bi-person"></i>
+            <span>Thông tin cá nhân</span>
+          </a>
+        </li>
+        <!-- End Info Nav -->
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="/faq">
+            <i class="bi bi-question-circle"></i>
+            <span>FAQ</span>
+          </a>
+        </li>
+        <!-- End F.A.Q Page Nav -->
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="/logout">
+            <i class="bi bi-question-circle"></i>
+            <span>Đăng xuất</span>
+          </a>
+        </li>
+        <!-- End Logout Page Nav -->
+      </ul>
+    </aside>
+    <!-- End Sidebar-->
+    <main id="main" class="main">
+      <div class="pagetitle">
+        <h1 class="server-name"></h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="/dashboard">Trang quản lý</a>
+            </li>
+            <li class="breadcrumb-item active">Quản lý máy chủ</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- End Page Title -->
+      <section class="section dashboard">
+        <div class="row">
+          <!-- Left side columns -->
+          <div class="col-lg-8">
+            <div class="row">
+              <!-- Command Card -->
+              <div class="col-xxl-4 col-md-6">
+                <div class="card info-card command-card">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      Số bài <span>| Trong hàng chờ</span>
+                    </h5>
+                    <div class="d-flex align-items-center">
+                      <div
+                        class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                      >
+                        <i class="bi bi-hourglass-split"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6 id="queue">-</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Command Card -->
+              <!-- User Number Card -->
+              <div class="col-xxl-4 col-md-6">
+                <div class="card info-card usercount-card">
+                  <div class="card-body">
+                    <h5 class="card-title">Chế độ <span>| Lặp đơn</span></h5>
+                    <div class="d-flex align-items-center">
+                      <div
+                        class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                      >
+                        <i class="bi bi-arrow-clockwise"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6 id="songloop">-</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End User Count Card -->
+              <!-- Server Count Card -->
+              <div class="col-xxl-4 col-xl-12">
+                <div class="card info-card servercount-card">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      Chế độ <span>| Lặp hàng chờ</span>
+                    </h5>
+                    <div class="d-flex align-items-center">
+                      <div
+                        class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                      >
+                        <i class="bi bi-arrow-repeat"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6 id="queueloop">-</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Server Count Card -->
+              <!-- Song Count Card -->
+              <div class="col-xxl-4 col-xl-12">
+                <div class="card info-card songcount-card">
+                  <div class="card-body">
+                    <h5 class="card-title">Tiền tố <span>| Lệnh</span></h5>
+                    <div class="d-flex align-items-center">
+                      <div
+                        class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                      >
+                        <i class="bi bi-at"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6 id="prefix">-</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Song Count Card -->
+            </div>
+          </div>
+          <!-- End Left side columns -->
+          <!-- Right side columns -->
+          <div class="col-lg-4">
+            <!-- Recent Activity -->
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Bài hát đang phát</h5>
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <i class="bi bi-music-note me-1 text-success"></i> Đang phát: <i id="now-playing"></i>
+                  </li>
+                  <li class="list-group-item">
+                    <i class="bi bi-clock-fill me-1 text-info"></i> Đã phát <i id="position"></i> trên <i id="duration"></i>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- End Recent Activity -->
+            <!-- End Right side columns -->
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- End #main -->
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+      <div class="footer-legal text-center">
+        <div
+          class="container d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between align-items-center"
+        >
+          <div
+            class="d-flex flex-column align-items-center align-items-lg-start"
+          >
+            <div class="copyright">
+              &copy; Bot được viết bởi
+              <strong
+                ><span
+                  ><a href="https://github.com/SudhanPlayz">Sudhan</a></span
+                ></strong
+              >
+              cùng những
+              <strong
+                ><span
+                  ><a
+                    href="https://github.com/SudhanPlayz/Discord-MusicBot/graphs/contributors"
+                    >người đóng góp</a
+                  ></span
+                ></strong
+              >. Bảo lưu mọi quyền.
+            </div>
+            <div class="credits">
+              Web được thiết kế bởi
+              <a href="https://bootstrapmade.com/">BootstrapMade.</a> Việt Hoá,
+              vận hành Discord Bot và website bởi Sena.
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- End Footer -->
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+    >
+      <i class="bi bi-arrow-up-short"></i>
+    </a>
+    <!-- Vendor JS Files -->
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <!-- Template Main JS File -->
+    <script src="/js/dashboard.js"></script>
+    <script>
+      $(document).ready(() => {
+        var socket = io();
+        socket.emit("server", window.location.pathname.split("/")[2]);
+        socket.on("server", (data) => {
+          $("#queue").text(data.queue);
+          $("#songloop").text(data.songsLoop);
+          $("#queueloop").text(data.queueLoop);
+          $("#prefix").text(data.prefix);
+          $("#now-playing").text(
+            data.nowPlaying ? data.nowPlaying.title : "Danh sách phát trống."
+          );
+          if (data.position) {
+            $("#duration").text(`${data.maxDuration}`);
+            $("#position").text(`${data.position}`);
+          } else {
+            $("#duration").text("00:00");
+            $("#position").text("00:00");
+          }
+        });
+        $.get("/api/user", (data) => {
+          $("#pfpinfo").append(`
+              <img
+                src="https://cdn.discordapp.com/avatars/${data.user.id}/${data.user.avatar}.png"
+                class="rounded-circle"
+              />
+              <span class="d-none d-md-block dropdown-toggle ps-2">
+                ${data.user.username}
+              </span>
+          `);
+          let Guild = data.user.guilds.find(
+          (x) => x.id == window.location.pathname.split("/")[2]
+        );
+        if (!Guild.inGuild) {
+          $.get("/api/info", (data) => {
+            window.location = `https://discord.com/oauth2/authorize?client_id=${
+              data.ClientID
+            }&permissions=${data.Permissions}&scope=bot%20${data.Scopes.join(
+              "%20"
+            )}&redirect_uri=${data.Website}${
+              data.CallbackURL
+            }&response_type=code`;
+          });
+        }
+        $(".server-name").text(Guild.name);
+        });
+      });
+    </script>
+  </body>
+</html>

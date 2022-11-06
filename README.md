@@ -15,10 +15,6 @@ Dưới đây là hướng dẫn chung cho Discord-MusicBot, bấm vào hình đ
 
 [![Advanced Discord Music Bot with Web Dashboard | Spotify Support](https://img.youtube.com/vi/p4lP96Tiv9s/maxresdefault.jpg)](https://www.youtube.com/watch?v=p4lP96Tiv9s)
 
-## 📸 Xem trước thành quả
-
-<div align="left"><img src="/assets/img/Screenshot_1.png"></div><div align="center"><img src="/assets/img/Screenshot_2.png"></div><div align="right"><img src="/assets/img/Screenshot_3.png"></div>
-
 <div align="center"><img src="/assets/feature.png"></div>
 
 ## 💨 Chạy bot?
